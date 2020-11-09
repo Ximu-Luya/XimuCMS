@@ -1,0 +1,40 @@
+html,
+body,
+#app,
+.wrapper {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #F4F4F4;
+}
+
+body {
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+}
+
+/* 去除a标签默认样式 */
+a:-webkit-any-link {
+    color: inherit;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+::-webkit-scrollbar-thumb {
+    background: #c7d1da;
+    border-radius: 3.5px;
+}
+::-webkit-scrollbar-track-piece {
+    background: #efefef;
+}
+/* 去掉某些元素focus状态样式 */
+:focus{
+    outline: none;
+}
