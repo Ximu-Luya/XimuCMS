@@ -4,7 +4,7 @@ import Router from 'vue-router';
 Vue.use(Router);
 
 export default new Router({
-    mode: 'history',
+    // mode: 'history',
     routes: [{
             path: '/',
             redirect: '/index'
@@ -25,6 +25,13 @@ export default new Router({
             }
         },
         {
+            path: '/blog',
+            component: () => import( /* webpackChunkName: "login" */ '../components/pages/public/Blog.vue'),
+            meta: {
+                title: '博客'
+            }
+        },
+        {
             path: '/404',
             component: () => import(/* webpackChunkName: "404" */ '../components/pages/404.vue'),
             meta: {
@@ -34,13 +41,6 @@ export default new Router({
         {
             path: '*',
             redirect: '/404'
-        },
-        // {
-        //     path: '/charttest',
-        //     component: () => import(/* webpackChunkName: "charttest" */ '../components/common/Charts.vue'),
-        //     meta: {
-        //         title: 'echart图表测试'
-        //     }
-        // }
+        }
     ]
 });

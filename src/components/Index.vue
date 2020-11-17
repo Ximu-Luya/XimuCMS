@@ -3,7 +3,7 @@
         <!-- 封面 -->
         <div class="banner" :style="{ backgroundImage: 'url(' + Img + ')' }">
             <div class="slogan">
-                <p>西木工作室</p>
+                <p>云计算与高性能计算团队</p>
                 <p>青春永无止境</p>
             </div>
 
@@ -283,9 +283,6 @@ export default {
         #summary_title {
             flex: none;
             width: 250px;
-        }
-
-        .summary_container {
         }
     }
     // 研究项目
