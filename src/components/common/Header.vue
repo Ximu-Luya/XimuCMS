@@ -7,7 +7,7 @@
 
         <div id="topNav">
             <router-link to="">首页</router-link>
-            <router-link to="">项目成果</router-link>
+            <router-link to="">研究项目</router-link>
             <router-link to="">博客</router-link>
             <router-link to="">联系我们</router-link>
         </div>
