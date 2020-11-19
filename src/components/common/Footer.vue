@@ -39,7 +39,7 @@ export default {
     }
 
     .cuit {
-        padding: 55px 0 35px 0;
+        padding: 20px 0;
         p {
             line-height: 40px;
         }

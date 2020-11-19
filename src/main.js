@@ -3,13 +3,39 @@ import App from './App.vue'
 import router from './router' // 引入目录下自定义的router API
 import ElementUI from 'element-ui'; //引入element-ui
 import 'element-ui/lib/theme-chalk/index.css'; //引入element-ui样式
+import axios from 'axios';
 
 
 Vue.use(ElementUI, {
     size: 'small'
 }); //使用element-ui并修改组件内置大小
 
-Vue.config.productionTip = false
+// axios基础配置并定义axios全局变量
+Vue.prototype.$axios = process.env.NODE_ENV === 'development' ? axios.create({
+    // baseURL: 'https://www.easy-mock.com/mock/5fb0accea12a7e2dea86f430/grapes',
+    timeout: 5000
+}) :  axios.create({
+    // 此处填入生产环境请求baseURL
+    // baseURL: 'https://www.easy-mock.com/mock/5fb0accea12a7e2dea86f430/grapes',
+    timeout: 5000
+});
+
+// 定义axios响应拦截器
+Vue.prototype.$axios.interceptors.response.use((config) => {
+    // 在收到数据之前做些什么
+    // console.log(config)
+    return config;
+}, (err) => {
+    // 对响应错误做些什么
+    console.log(err.response.status)
+    Vue.prototype.$message({
+        message: '网络连接失败',
+        type: 'error'
+    });
+    return Promise.reject(err);
+});
+
+Vue.config.productionTip = false;
 
 //使用钩子函数对路由进行权限跳转
 router.beforeEach((to, from, next) => {

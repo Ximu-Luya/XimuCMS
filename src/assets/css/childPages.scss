@@ -1,15 +1,11 @@
+@import "reuse_style.scss";
 .page_header{
     padding: 50px 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include flex-row-center;
 
     .title_container{
         max-width: 1200px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        @include flex-column-center;
         h1{
             width: 100%;
             text-align: center;
@@ -51,9 +47,7 @@
 }
 
 .page_content{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include flex-row-center;
     
     .blog_container{
         max-width: 1200px;
