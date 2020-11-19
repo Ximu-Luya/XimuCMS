@@ -1,0 +1,61 @@
+.page_header{
+    padding: 50px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .title_container{
+        max-width: 1200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        h1{
+            width: 100%;
+            text-align: center;
+            color: #29293a;
+            font-size: 2rem;
+            letter-spacing: 20px;
+            text-indent: 20px;
+            margin: 0;
+        }
+        p{
+            margin-top: 35px;
+            margin-bottom: 40px;
+        }
+        .hr-logo{
+            font-size: 3rem;
+            position: relative;
+            &::before{
+                content: "";
+                display: block;
+                position: absolute;
+                top: 54%;
+                left: 90px;
+                width: 200px;
+                height: 2px;
+                background: #0F3A59;
+            }
+            &::after{
+                content: "";
+                display: block;
+                position: absolute;
+                top: 54%;
+                right: 90px;
+                width: 200px;
+                height: 2px;
+                background: #0F3A59;
+            }
+        }
+    }
+}
+
+.page_content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    .blog_container{
+        max-width: 1200px;
+    }
+}

@@ -1,9 +1,9 @@
 <template>
     <div id="app">
         <xm-header></xm-header>
-        <div id="content">
-            <router-view></router-view>
-        </div>
+        <router-view></router-view>
+        <!-- <div id="content">
+        </div> -->
         <xm-footer></xm-footer>
     </div>
 </template>

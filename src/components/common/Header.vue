@@ -1,13 +1,13 @@
 <template>
     <div class="header">
         <router-link id="logo" to="/index">
-            <img style="color: #fff; margin: 0 10px;" :src="Logo" />
+            <img style="color: #fff; margin: 0 10px" :src="Logo" />
             云计算与高性能计算团队
         </router-link>
 
         <div id="topNav">
             <router-link to="/index">首页</router-link>
-            <router-link to="">研究项目</router-link>
+            <router-link to="/achievement">团队成果</router-link>
             <router-link to="/blog">博客</router-link>
             <router-link to="">联系我们</router-link>
         </div>
@@ -24,69 +24,93 @@ export default {
             Logo
         };
     },
+    computed: {
+        path(){
+            return this.$route.path;
+        },
+    },
+    watch: {
+        "$route": "pathChange",
+    },
     mounted(){
-        window.addEventListener('scroll',() => {
-            // console.log(1)
+        const _this = this;
+        _this.pathChange();
+    },
+    methods: {
+        pathChange(){
+            const _this = this;
+            console.log(_this.path)
+            if(_this.path == '/index') {
+                document.getElementsByClassName("header")[0].style = "position: fixed;";
+                document.getElementsByClassName("header")[0].setAttribute("id", "");
+                window.addEventListener('scroll', _this.setHeaderAttribute);
+            }
+            else{
+                window.removeEventListener('scroll', _this.setHeaderAttribute);
+                document.getElementsByClassName("header")[0].style = "";
+                document.getElementsByClassName("header")[0].setAttribute("id", "notTop");
+            }
+        },
+        setHeaderAttribute(){
             var scrollTop = window.pageYOffset;
             // console.log(scrollTop)
             if(scrollTop != 0) document.getElementsByClassName("header")[0].setAttribute("id", "notTop");
             else document.getElementsByClassName("header")[0].setAttribute("id", "");
-        })
+        }
     }
 };
 </script>
 
 <style lang="scss" scoped>
-.header{
+.header {
     width: 100%;
     padding: 20px 13%;
     display: flex;
     justify-content: space-between;
-    position: fixed;
-    // left: 50%;
-    // transform: translate(-50%, 0);
     transition: 0.7s all;
     z-index: 100;
     font-size: 1.5rem;
+    height: 110px;
 
-    #logo{
+    #logo {
         width: 520px;
         font-size: 1.75rem;
         display: flex;
         align-items: center;
         transition: inherit;
-        img{
+        img {
             width: 60px;
             transition: inherit;
         }
     }
 
-    #topNav{
+    #topNav {
         display: flex;
         align-items: center;
         justify-content: flex-end;
     }
 
-    a{
+    a {
         color: #fff;
         font-weight: 500;
         padding: 0 30px;
     }
 }
-#notTop{
+#notTop {
     box-shadow: 0px 0px 2px #333333;
     background-color: #535353;
     padding: 20px 15%;
     font-size: 1.25rem;
-    
-    #logo{
+    height: 90px;
+
+    #logo {
         font-size: 1.5rem;
-        img{
+        img {
             width: 50px;
         }
     }
 
-    a{
+    a {
         color: #fff;
         font-weight: 500;
         // font-size: 1.5rem;

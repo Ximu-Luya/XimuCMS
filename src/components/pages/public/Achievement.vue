@@ -1,18 +1,18 @@
 <template>
-    <div id="blog_index">
+    <div id="achievement_index">
         <section class="page_header">
             <div class="title_container">
-                <h1>博客</h1>
-                <p>这里是由团队成员创作的博客，记录一些开发时遇到的问题与其解决方法，在此分享开发心得与经验，共同进步。</p>
+                <h1>团队成果</h1>
+                <p>团队获得的各类成果，由专利，软件著作权与学生竞赛成果组成。</p>
                 <div class="hr-logo"><i class="el-icon-notebook-2"></i></div>
             </div>
         </section>
         <section class="page_content">
-            <div class="blog_container">
-                <div class="blog_item">
+            <div class="achievement_container">
+                <div class="achievement_item">
 
                 </div>
-                <div class="blog_item">
+                <div class="achievement_item">
                     
                 </div>
             </div>
@@ -22,7 +22,7 @@
 
 <script>
 export default {
-    name: 'Blog',
+    name: 'Achievement',
     data() {
         return {
 

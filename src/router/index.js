@@ -25,6 +25,13 @@ export default new Router({
             }
         },
         {
+            path: '/achievement',
+            component: () => import( /* webpackChunkName: "login" */ '../components/pages/public/Achievement.vue'),
+            meta: {
+                title: '团队成果'
+            }
+        },
+        {
             path: '/blog',
             component: () => import( /* webpackChunkName: "login" */ '../components/pages/public/Blog.vue'),
             meta: {
