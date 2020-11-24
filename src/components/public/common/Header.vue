@@ -1,14 +1,14 @@
 <template>
     <div class="header">
-        <router-link id="logo" to="/index">
+        <router-link id="logo" to="/public/index">
             <img style="color: #fff; margin: 0 10px" :src="Logo" />
             云计算与高性能计算团队
         </router-link>
 
         <div id="topNav">
-            <router-link to="/index">首页</router-link>
-            <router-link to="/achievement">团队成果</router-link>
-            <router-link to="/blog">博客</router-link>
+            <router-link to="/public/index">首页</router-link>
+            <router-link to="/public/achievement">团队成果</router-link>
+            <router-link to="/public/blog">博客</router-link>
             <router-link to="">联系我们</router-link>
         </div>
     </div>
@@ -40,7 +40,7 @@ export default {
         pathChange(){
             const _this = this;
             console.log(_this.path)
-            if(_this.path == '/index') {
+            if(_this.path == '/public/index') {
                 document.getElementsByClassName("header")[0].style = "position: fixed;";
                 document.getElementsByClassName("header")[0].setAttribute("id", "");
                 window.addEventListener('scroll', _this.setHeaderAttribute);

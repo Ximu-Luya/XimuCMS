@@ -4,6 +4,7 @@ import router from './router' // 引入目录下自定义的router API
 import ElementUI from 'element-ui'; //引入element-ui
 import 'element-ui/lib/theme-chalk/index.css'; //引入element-ui样式
 import axios from 'axios';
+import Vuex from 'vuex';
 
 
 Vue.use(ElementUI, {
@@ -14,7 +15,7 @@ Vue.use(ElementUI, {
 Vue.prototype.$axios = process.env.NODE_ENV === 'development' ? axios.create({
     // baseURL: 'https://www.easy-mock.com/mock/5fb0accea12a7e2dea86f430/grapes',
     timeout: 5000
-}) :  axios.create({
+}) : axios.create({
     // 此处填入生产环境请求baseURL
     // baseURL: 'https://www.easy-mock.com/mock/5fb0accea12a7e2dea86f430/grapes',
     timeout: 5000
@@ -47,14 +48,6 @@ router.beforeEach((to, from, next) => {
     // //     let updates = '<ul>' + 
     // //         '<li>引入echarts主题</li>' + 
     // //         '<li>绘图部分组件化</li>' + 
-    // //         '<li>登录页对Enter键响应</li>' + 
-    // //         '<li>增加模块设置一键绘制按钮</li>' + 
-    // //         '<li>实现图表绘制组件动态添加</li>' + 
-    // //         '<li>完善页面变化时重置图表</li>' + 
-    // //         '<li>新增更新内容提示框</li>' + 
-    // //         '<li>监听窗口变化重新绘制图表</li>' + 
-    // //         '<li>新增工具栏 - 切换数据类型</li>' + 
-    // //         '<li>图表对宽屏响应式变化</li>' + 
     // //         '</ul>';
     // //     Vue.prototype.$alert(updates, '此次更新内容', {
     // //         confirmButtonText: '确定',
@@ -75,6 +68,23 @@ router.beforeEach((to, from, next) => {
     // //     });
     // // }
 });
+
+Vue.use(Vuex)
+Vue.prototype.$store = new Vuex.Store({
+    state: {
+        collapse: false
+    },
+    mutations: {
+        collapseChange(state, nowstatus) {
+            state.collapse = nowstatus;
+        }
+    },
+    getters: {
+        getCollapse: (state) => {
+            return state.collapse;
+        }
+    }
+})
 
 new Vue({
     router,

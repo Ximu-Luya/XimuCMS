@@ -15,7 +15,8 @@
     "sass": "^1.26.11",
     "sass-loader": "^10.0.2",
     "vue": "^2.6.11",
-    "vue-router": "^3.4.8"
+    "vue-router": "^3.4.8",
+    "vuex": "^3.5.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
