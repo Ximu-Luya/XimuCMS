@@ -27,6 +27,7 @@
                             <i class="el-icon-bell"></i>
                         </router-link> -->
                     </el-tooltip>
+                    <!-- 新消息红点 -->
                     <span class="btn-bell-badge" v-if="message"></span>
                 </div>
                 <!-- 用户头像 -->
@@ -88,7 +89,7 @@ export default {
         return {
             collapse: false,
             fullscreen: false,
-            name: 'linxin',
+            name: 'Ximu',
             message: 0,
             copyrightdrawer: false,
             version: '0.1.1',
@@ -135,7 +136,7 @@ export default {
         // 侧边栏折叠
         collapseChage() {
             this.collapse = !this.collapse;
-            this.$store.commit('collapseChange', this.collapse)
+            this.$store.commit('collapseChange', this.collapse);
         },
         // 全屏事件
         handleFullScreen() {
@@ -167,7 +168,8 @@ export default {
     }
 };
 </script>
-<style scoped>
+
+<style lang="scss" scoped>
 .header {
     position: absolute;
     box-sizing: border-box;
@@ -181,91 +183,98 @@ export default {
     display: flex;
     justify-content: space-between;
     box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+    background-color: #fff;
+    z-index: 99;
+
+    *{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    &.header-collapse {
+        left: 64px;
+    }
+
+    .header-left{
+        .collapse-btn {
+            height: 50px;
+            padding: 0 20px;
+            cursor: pointer;
+            line-height: 30px;
+        }
+    }
+
+    .header-right {
+        padding-right: 20px;
+        .header-user-con {
+            display: flex;
+            align-items: center;
+
+            .btn-bell, .btn-fullscreen {
+                position: relative;
+                width: 30px;
+                height: 30px;
+                text-align: center;
+                cursor: pointer;
+            }
+            .btn-fullscreen {
+                margin-right: 5px;
+                font-size: 24px;
+            }
+            .btn-bell {
+                .el-icon-bell {
+                    color: #000;
+                }
+                .btn-bell-badge {
+                    position: absolute;
+                    right: 0;
+                    top: -2px;
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 4px;
+                    background: #f56c6c;
+                    color: #000;
+                }
+            }
+            .user-avator {
+                margin-left: 20px;
+                cursor: pointer;
+                img {
+                    display: block;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                }
+            }
+            .user-name {
+                margin-left: 10px;
+                .el-dropdown-link {
+                    color: #000;
+                    cursor: pointer;
+                }
+            }
+            #btn-copyright {
+                margin-left: 20px;
+                cursor: pointer;
+            }
+            
+        }
+    }
 }
-.header * {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.header-collapse {
-    left: 64px;
-}
-.collapse-btn {
-    height: 50px;
-    padding: 0 20px;
-    line-height: 30px;
-    cursor: pointer;
-}
-.header-right {
-    padding-right: 20px;
-}
-.header-user-con {
-    display: flex;
-    align-items: center;
-}
-.btn-fullscreen {
-    margin-right: 5px;
-    font-size: 24px;
-}
-.btn-bell,
-.btn-fullscreen {
-    position: relative;
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    cursor: pointer;
-}
-.btn-bell-badge {
-    position: absolute;
-    right: 0;
-    top: -2px;
-    width: 8px;
-    height: 8px;
-    border-radius: 4px;
-    background: #f56c6c;
-    color: #000;
-}
-.btn-bell .el-icon-bell {
-    color: #000;
-}
-.user-name {
-    margin-left: 10px;
-}
-.user-avator {
-    margin-left: 20px;
-}
-.user-avator img {
-    display: block;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-}
-.el-dropdown-link {
-    color: #000;
-    cursor: pointer;
-}
-.el-dropdown-menu__item {
-    text-align: center;
-}
-#btn-copyright {
-    margin-left: 20px;
-    cursor: pointer;
-}
-.copyright .title {
-    height: 42px;
-    line-height: 42px;
-    padding: 0 15px;
-    border-bottom: 1px solid #f6f6f6;
-    color: #333;
-}
-.copyright .body {
-    padding: 10px 15px;
-    color: #666;
-}
-.copyright p {
-    margin-bottom: 10px;
-}
-:focus {
-    outline: none;
+.copyright {
+    .title {
+        height: 42px;
+        line-height: 42px;
+        padding: 0 15px;
+        border-bottom: 1px solid #f6f6f6;
+        color: #333;
+    }
+    .body {
+        padding: 10px 15px;
+        color: #666;
+        p {
+            margin-bottom: 10px;
+        }
+    }
 }
 </style>

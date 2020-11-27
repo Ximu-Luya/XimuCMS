@@ -7,7 +7,7 @@ export default new Router({
     // mode: 'history',
     routes: [{
             path: '/',
-            redirect: '/public'
+            redirect: '/admin'
         },
         {
             path: '/public',
@@ -47,7 +47,14 @@ export default new Router({
                     path: 'index',
                     component: () => import( /* webpackChunkName: "admin" */ '../components/admin/Index.vue'),
                     meta: {
-                        title: '管理首页'
+                        title: '首页'
+                    }
+                }, 
+                {
+                    path: 'content_blog',
+                    component: () => import( /* webpackChunkName: "admin" */ '../components/admin/Content_blog.vue'),
+                    meta: {
+                        title: '博客'
                     }
                 }, 
             ]

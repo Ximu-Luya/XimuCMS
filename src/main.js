@@ -4,7 +4,7 @@ import router from './router' // 引入目录下自定义的router API
 import ElementUI from 'element-ui'; //引入element-ui
 import 'element-ui/lib/theme-chalk/index.css'; //引入element-ui样式
 import axios from 'axios';
-import Vuex from 'vuex';
+import "./store/vuex"
 
 
 Vue.use(ElementUI, {
@@ -68,23 +68,6 @@ router.beforeEach((to, from, next) => {
     // //     });
     // // }
 });
-
-Vue.use(Vuex)
-Vue.prototype.$store = new Vuex.Store({
-    state: {
-        collapse: false
-    },
-    mutations: {
-        collapseChange(state, nowstatus) {
-            state.collapse = nowstatus;
-        }
-    },
-    getters: {
-        getCollapse: (state) => {
-            return state.collapse;
-        }
-    }
-})
 
 new Vue({
     router,

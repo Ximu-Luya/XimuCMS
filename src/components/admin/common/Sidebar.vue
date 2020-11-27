@@ -10,7 +10,6 @@
                 text-color="#bfcbd9"
                 active-text-color="#20a0ff"
                 :collapse-transition="false"
-                unique-opened
                 router
             >
                 <template v-for="item in items">
@@ -69,84 +68,60 @@ export default {
             // 菜单内容
             items: [
                 {
-                    icon: 'el-icon-lx-home',
+                    icon: 'el-icon-monitor',
                     index: 'dashboard',
-                    title: '系统首页',
-                    roleif: 'root admin custom CMI security IDC_FM'
+                    title: '首页',
+                    roleif: 'root admin custom',
+                    subs: [
+                        {
+                            index: 'index',
+                            title: '仪表盘'
+                        },
+                        {
+                            index: 'task',
+                            title: '工作流任务'
+                        },
+                    ]
                 },
                 {
-                    icon: 'el-icon-lx-calendar',
-                    index: 'form',
-                    title: '表单相关',
+                    icon: 'el-icon-document-copy',
+                    index: 'content',
+                    title: '内容创作',
                     roleif: 'root custom',
                     subs: [
                         {
-                            index: 'shipmentApplicationForm',
-                            title: '入库表单'
+                            index: 'content_index',
+                            title: '主页'
                         },
                         {
-                            index: 'moveInAndOutApplicationForm',
-                            title: '出入数据大厅表单'
+                            index: 'content_achievement',
+                            title: '团队成果'
+                        },
+                        {
+                            index: 'content_blog',
+                            title: '博客'
                         }
                     ]
                 },
                 {
-                    icon: 'el-icon-lx-roundcheck',
-                    index: 'approval',
-                    title: '审批管理',
-                    roleif: 'root CMI security IDC_FM',
+                    icon: 'el-icon-user',
+                    index: 'setting_pannel',
+                    title: '设置面板',
+                    roleif: 'root admin',
                     subs: [
                         {
-                            index: 'history',
-                            title: '历史任务'
+                            index: 'users',
+                            title: '用户管理'
                         },
                         {
-                            index: 'todo',
-                            title: '我的待办'
+                            index: 'roles',
+                            title: '角色管理'
+                        },
+                        {
+                            index: 'menus',
+                            title: '菜单管理',
                         }
                     ]
-                },
-                {
-                    icon: 'el-icon-s-order',
-                    index: 'myapplication',
-                    title: '我的申请',
-                    roleif: 'root custom'
-                },
-                {
-                    icon: 'el-icon-lx-people',
-                    index: 'usermanagement',
-                    title: '用户管理',
-                    roleif: 'root admin'
-                },
-                {
-                    icon: 'el-icon-lx-group',
-                    index: 'rolemanagement',
-                    title: '角色管理',
-                    roleif: 'root admin'
-                },
-                {
-                    icon: 'el-icon-s-platform',
-                    index: 'orgmanagement',
-                    title: '机构管理',
-                    roleif: 'root admin'
-                },
-                {
-                    icon: 'el-icon-s-operation',
-                    index: 'departmentmanagement',
-                    title: '部门管理',
-                    roleif: 'root admin'
-                },
-                {
-                    icon: 'el-icon-s-cooperation',
-                    index: 'positionmanagement',
-                    title: '职位管理',
-                    roleif: 'root admin'
-                },
-                {
-                    icon: 'el-icon-menu',
-                    index: 'menumanagement',
-                    title: '菜单管理',
-                    roleif: 'root admin'
                 }
             ]
         };
@@ -156,12 +131,17 @@ export default {
     },
     computed: {
         onRoutes() {
-            return this.$route.path.replace('/', '');
+            return this.$route.path.split('/')[2];
         },
         collapse() {
             return this.$store.getters.getCollapse;
         }
     },
+    mounted(){
+        this.$nextTick(() => {
+            console.log(this.onRoutes)
+        })
+    }
 }
 </script>
 
