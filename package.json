@@ -9,8 +9,11 @@
   },
   "dependencies": {
     "axios": "^0.21.0",
+    "body-parser": "^1.19.0",
     "core-js": "^3.6.5",
     "element-ui": "^2.13.2",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
     "node-sass": "^4.14.1",
     "sass": "^1.26.11",
     "sass-loader": "^10.0.2",

@@ -40,21 +40,3 @@ CREATE TABLE user(
 ) COMMENT = '用户信息 ';;
 
 ALTER TABLE user COMMENT '用户信息';;
-CREATE TABLE user_role(
-    role_id VARCHAR(32) NOT NULL   COMMENT '角色ID' ,
-    role_name VARCHAR(128)    COMMENT '角色名称' ,
-    PRIMARY KEY (role_id)
-) COMMENT = '用户角色 ';;
-
-ALTER TABLE user_role COMMENT '用户角色';;
-CREATE TABLE workflow(
-    workflow_id VARCHAR(32) NOT NULL   COMMENT '工作流程ID' ,
-    workflow_type VARCHAR(128)    COMMENT '流程类型' ,
-    founder_id VARCHAR(32)    COMMENT '创建人' ,
-    update_time VARCHAR(32)    COMMENT '最后更新时间' ,
-    workflow_status VARCHAR(32)    COMMENT '流程状态' ,
-    approver_id VARCHAR(32)    COMMENT '审批人' ,
-    PRIMARY KEY (workflow_id)
-) COMMENT = '工作流程 ';;
-
-ALTER TABLE workflow COMMENT '工作流程';;

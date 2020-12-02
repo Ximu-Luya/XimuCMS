@@ -146,7 +146,17 @@ export default {
             },
         };
     },
+    mounted(){
+        this.getData();
+    },
     methods: {
+        // 获取数据
+        getData(){
+            const _this = this;
+            _this.$axios.post('/user', _this.tableData[0]).then((res) => {
+                console.log(res);
+            });
+        },
         // 筛选搜索
         handleSearch() {},
         // 重置筛选搜索

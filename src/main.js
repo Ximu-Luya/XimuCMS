@@ -13,7 +13,7 @@ Vue.use(ElementUI, {
 
 // axios基础配置并定义axios全局变量
 Vue.prototype.$axios = process.env.NODE_ENV === 'development' ? axios.create({
-    // baseURL: 'https://www.easy-mock.com/mock/5fb0accea12a7e2dea86f430/grapes',
+    baseURL: 'http://127.0.0.1:8085',
     timeout: 5000
 }) : axios.create({
     // 此处填入生产环境请求baseURL
@@ -21,6 +21,11 @@ Vue.prototype.$axios = process.env.NODE_ENV === 'development' ? axios.create({
     timeout: 5000
 });
 
+Vue.prototype.$axios.interceptors.request.use((config) => {
+    // 在收到数据之前做些什么
+    console.log(config)
+    return config;
+})
 // 定义axios响应拦截器
 Vue.prototype.$axios.interceptors.response.use((config) => {
     // 在收到数据之前做些什么
