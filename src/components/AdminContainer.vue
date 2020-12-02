@@ -10,7 +10,6 @@
                         <router-view></router-view>
                     </keep-alive>
                 </transition>
-                <el-backtop target=".content"></el-backtop>
             </div>
         </div>
     </div>
@@ -43,10 +42,6 @@ export default {
         }
     },
     // created() {
-        // bus.$on('collapse-content', msg => {
-        //     this.collapse = msg;
-        // });
-
         // 只有在标签页列表里的页面才使用keep-alive，即关闭标签之后就不保存到内存中了。
         // bus.$on('tags', msg => {
         //     let arr = [];
@@ -80,6 +75,53 @@ export default {
         padding: 10px;
         overflow: auto;
         box-sizing: border-box;
+
+        ::v-deep.admin-page-container{
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+
+            .handle-box {
+                margin-bottom: 15px;
+                .handle-select {
+                    width: 120px;
+                }
+
+                .handle-input {
+                    width: 300px;
+                    display: inline-block;
+                }
+            }
+
+            .table {
+                width: 100%;
+                font-size: 14px;
+
+                .overlength {
+                    white-space: nowrap; /*设置不换行*/
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+            }
+
+            .pagination {
+                margin-top: 20px;
+                text-align: right;
+            }
+
+            .red {
+                color: #ff0000;
+            }
+            .yellow {
+                color: #ffc832;
+            }
+            .green {
+                color: #1ef050;
+            }
+            .mr10 {
+                margin-right: 10px;
+            }
+        }
     }
 }
 </style>

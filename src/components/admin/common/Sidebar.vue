@@ -61,38 +61,22 @@ export default {
     name: 'Sidebar',
     data(){
         return {
-            // 左侧菜单栏折叠
-            // collapse: false,
             // 角色信息
             role: '',
             // 菜单内容
             items: [
                 {
                     icon: 'el-icon-monitor',
-                    index: 'dashboard',
+                    index: 'index',
                     title: '首页',
-                    roleif: 'root admin custom',
-                    subs: [
-                        {
-                            index: 'index',
-                            title: '仪表盘'
-                        },
-                        {
-                            index: 'task',
-                            title: '工作流任务'
-                        },
-                    ]
+                    roleif: 'admin custom'
                 },
                 {
                     icon: 'el-icon-document-copy',
                     index: 'content',
                     title: '内容创作',
-                    roleif: 'root custom',
+                    roleif: 'admin custom',
                     subs: [
-                        {
-                            index: 'content_index',
-                            title: '主页'
-                        },
                         {
                             index: 'content_achievement',
                             title: '团队成果'
@@ -105,23 +89,9 @@ export default {
                 },
                 {
                     icon: 'el-icon-user',
-                    index: 'setting_pannel',
-                    title: '设置面板',
-                    roleif: 'root admin',
-                    subs: [
-                        {
-                            index: 'users',
-                            title: '用户管理'
-                        },
-                        {
-                            index: 'roles',
-                            title: '角色管理'
-                        },
-                        {
-                            index: 'menus',
-                            title: '菜单管理',
-                        }
-                    ]
+                    index: 'users',
+                    title: '用户管理',
+                    roleif: 'admin'
                 }
             ]
         };
@@ -145,7 +115,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 .sidebar {
     position: fixed;
     left: 0;
@@ -154,22 +124,21 @@ export default {
     width: 200px;
     transition: all 0.3s ease-in-out;
     overflow-x: hidden;
-}
-.sidebar-collapse {
-    width: 64px;
-}
-.sidebar::-webkit-scrollbar {
-    width: 0;
-}
-.menu-container{
-    background-color: #324157;
-    height: 100%;
-}
-.sidebar-el-menu {
-    border: none;
-}
-.sidebar > ul {
-    height: 100%;
-    border: none;
+
+    &.sidebar-collapse {
+        width: 64px;
+    }
+
+    &::-webkit-scrollbar {
+        width: 0;
+    }
+    .menu-container{
+        background-color: #324157;
+        height: 100%;
+
+        .sidebar-el-menu {
+            border: none;
+        }
+    }
 }
 </style>

@@ -51,12 +51,26 @@ export default new Router({
                     }
                 }, 
                 {
+                    path: 'content_achievement',
+                    component: () => import( /* webpackChunkName: "admin" */ '../components/admin/Content_achievement.vue'),
+                    meta: {
+                        title: '团队成果'
+                    }
+                },
+                {
                     path: 'content_blog',
                     component: () => import( /* webpackChunkName: "admin" */ '../components/admin/Content_blog.vue'),
                     meta: {
                         title: '博客'
                     }
-                }, 
+                },
+                {
+                    path: 'users',
+                    component: () => import( /* webpackChunkName: "admin" */ '../components/admin/UserManage.vue'),
+                    meta: {
+                        title: '用户管理'
+                    }
+                },
             ]
         },
         {
