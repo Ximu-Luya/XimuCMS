@@ -34,6 +34,7 @@ CREATE TABLE user(
     user_name VARCHAR(128)    COMMENT '用户姓名' ,
     user_email VARCHAR(128)    COMMENT '邮件' ,
     team_id VARCHAR(32)    COMMENT '团队ID' ,
+    job VARCHAR(128)    COMMENT '团队担任工作' ,
     user_status VARCHAR(32)    COMMENT '用户状态' ,
     role VARCHAR(128)    COMMENT '角色' ,
     PRIMARY KEY (user_id)
