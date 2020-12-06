@@ -65,6 +65,13 @@ export default new Router({
                     }
                 },
                 {
+                    path: 'team',
+                    component: () => import( /* webpackChunkName: "admin" */ '../components/admin/TeamManage'),
+                    meta: {
+                        title: '团队管理'
+                    }
+                },
+                {
                     path: 'users',
                     component: () => import( /* webpackChunkName: "admin" */ '../components/admin/UserManage.vue'),
                     meta: {

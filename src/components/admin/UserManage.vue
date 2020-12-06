@@ -52,18 +52,10 @@
             <el-table-column prop="role" min-width="60" label="角色"></el-table-column>
             <el-table-column width="80" label="用户状态" align="center">
                 <template slot-scope="scope">
-                    <el-tag :type="'success'" v-if="scope.row.status === '已激活'">{{
-                        scope.row.status
-                    }}</el-tag>
-                    <el-tag :type="'warning'" v-if="scope.row.status === '未激活'">{{
-                        scope.row.status
-                    }}</el-tag>
-                    <el-tag :type="'danger'" v-if="scope.row.status === '已禁用'">{{
-                        scope.row.status
-                    }}</el-tag>
-                    <el-tag :type="'info'" v-if="scope.row.status === '已删除'">{{
-                        scope.row.status
-                    }}</el-tag>
+                    <el-tag :type="'success'" v-if="scope.row.status === '已激活'">{{scope.row.status}}</el-tag>
+                    <el-tag :type="'warning'" v-if="scope.row.status === '未激活'">{{scope.row.status</el-tag>
+                    <el-tag :type="'danger'" v-if="scope.row.status === '已禁用'">{{scope.row.status}}</el-tag>
+                    <el-tag :type="'info'" v-if="scope.row.status === '已删除'">{{scope.row.status}}</el-tag>
                 </template>
             </el-table-column>
             <el-table-column label="操作" width="180" align="center">

@@ -1,6 +1,6 @@
-var express = require('express')
-var app = express()
-var api = require('./api')
+let express = require('express')
+let app = express()
+let api = require('./api')
 
 // 解决跨域问题
 app.all('*', function (req, res, next) {
@@ -17,8 +17,8 @@ app.get('/', function (req, res) {
     res.send('hello world!');
 });
 
-var server = app.listen(8085, 'localhost', function () {
-    var host = server.address().address
-    var port = server.address().port
+let server = app.listen(8085, 'localhost', function () {
+    let host = server.address().address;
+    let port = server.address().port;
     console.log("应用实例，访问地址为 http://%s:%s", host, port)
-})
+});

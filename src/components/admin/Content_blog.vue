@@ -51,12 +51,12 @@
             <el-table-column prop="title" min-width="200" label="博客标题"></el-table-column>
             <el-table-column min-width="80" label="博客类型" align="center">
                 <template slot-scope="scope">
-                    <el-tag :type="'success'" v-if="scope.row.type === '转载'">{{
-                        scope.row.type
-                    }}</el-tag>
-                    <el-tag :type="'danger'" v-if="scope.row.type === '原创'">{{
-                        scope.row.type
-                    }}</el-tag>
+                    <el-tag :type="'success'" v-if="scope.row.type === '转载'">
+                        {{ scope.row.type }}
+                    </el-tag>
+                    <el-tag :type="'danger'" v-if="scope.row.type === '原创'">
+                        {{ scope.row.type }}
+                    </el-tag>
                 </template>
             </el-table-column>
             <el-table-column prop="author" min-width="80" label="作者"></el-table-column>
@@ -153,15 +153,16 @@ export default {
     methods: {
         getBlogData() {
             const _this = this;
-            _this.$axios.get("blogs.json").then((res) => {
-                console.log(res.data);
+            _this.$axios.get("/getBlogData").then((res) => {
+                console.log(res);
                 // _this.tableData = res.data.blogs;
                 for (let item of res.data.blogs) {
+                    const {author, blog_title, date, blog_type} = item;
                     _this.tableData.push({
-                        title: item.blog_title,
-                        type: item.blog_type,
-                        author: item.author,
-                        updatetime: item.date,
+                        title: blog_title,
+                        type: blog_type,
+                        author: author,
+                        updatetime: date,
                     });
                 }
             });
