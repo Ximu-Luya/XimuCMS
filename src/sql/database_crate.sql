@@ -1,5 +1,5 @@
 CREATE TABLE blog(
-    blog_id VARCHAR(32) NOT NULL   COMMENT '博客ID' ,
+    blog_id INT NOT NULL AUTO_INCREMENT  COMMENT '博客ID' ,
     blog_title VARCHAR(128)    COMMENT '标题' ,
     blog_type VARCHAR(32)    COMMENT '博客类型 原创、转载、活动事件博客' ,
     blog_content TEXT    COMMENT '博客内容 markdown文本' ,
@@ -10,7 +10,7 @@ CREATE TABLE blog(
 
 ALTER TABLE blog COMMENT '博客详情';;
 CREATE TABLE achievement(
-    achievement_id VARCHAR(32) NOT NULL   COMMENT '成果ID' ,
+    achievement_id INT NOT NULL AUTO_INCREMENT  COMMENT '成果ID' ,
     achievement_name VARCHAR(128)    COMMENT '名称' ,
     achievement_detail VARCHAR(1024)    COMMENT '成果细节' ,
     user_id VARCHAR(32)    COMMENT '最后编辑者' ,
@@ -20,7 +20,7 @@ CREATE TABLE achievement(
 
 ALTER TABLE achievement COMMENT '成果详情';;
 CREATE TABLE team(
-    team_id VARCHAR(32) NOT NULL   COMMENT '团队ID' ,
+    team_id INT NOT NULL AUTO_INCREMENT  COMMENT '团队ID' ,
     team_name VARCHAR(128)    COMMENT '团队名称' ,
     team_type VARCHAR(128)    COMMENT '团队类型' ,
     PRIMARY KEY (team_id)
@@ -28,7 +28,7 @@ CREATE TABLE team(
 
 ALTER TABLE team COMMENT '团队信息';;
 CREATE TABLE user(
-    user_id VARCHAR(32) NOT NULL   COMMENT '用户ID' ,
+    user_id INT NOT NULL AUTO_INCREMENT  COMMENT '用户ID' ,
     username VARCHAR(32)    COMMENT '用户名' ,
     password VARCHAR(32)    COMMENT '密码' ,
     user_name VARCHAR(128)    COMMENT '用户姓名' ,

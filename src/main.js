@@ -21,19 +21,27 @@ Vue.prototype.$axios = process.env.NODE_ENV === 'development' ? axios.create({
     timeout: 5000
 });
 
-Vue.prototype.$axios.interceptors.request.use((config) => {
-    // 在收到数据之前做些什么
-    console.log(config)
+// 定义axios请求拦截器
+Vue.prototype.$axios.interceptors.request.use(config => {
+    // 在发送数据之前做些什么
+    console.log('请求url为：' + config.url, config)
     return config;
-})
+}, err => {
+    // 对响应错误做些什么
+    Vue.prototype.$message({
+        message: '请求失败',
+        type: 'error'
+    });
+    return Promise.reject(err);
+});
+
 // 定义axios响应拦截器
-Vue.prototype.$axios.interceptors.response.use((config) => {
+Vue.prototype.$axios.interceptors.response.use(config => {
     // 在收到数据之前做些什么
-    // console.log(config)
+    console.log('响应url为：' + config.config.url, config)
     return config;
 }, (err) => {
     // 对响应错误做些什么
-    console.log(err.response.status)
     Vue.prototype.$message({
         message: '网络连接失败',
         type: 'error'

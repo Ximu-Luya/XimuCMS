@@ -9,11 +9,12 @@
           "fields": [
             {
               "name": "blog_id",
-              "type": "IdOrKey",
+              "type": "Integer",
               "remark": "",
               "chnname": "博客ID",
               "pk": true,
-              "notNull": true
+              "notNull": true,
+              "autoIncrement": true
             },
             {
               "name": "blog_title",
@@ -103,11 +104,12 @@
           "fields": [
             {
               "name": "achievement_id",
-              "type": "IdOrKey",
+              "type": "Integer",
               "remark": "",
               "chnname": "成果ID",
               "pk": true,
-              "notNull": true
+              "notNull": true,
+              "autoIncrement": true
             },
             {
               "name": "achievement_name",
@@ -189,11 +191,12 @@
           "fields": [
             {
               "name": "team_id",
-              "type": "IdOrKey",
+              "type": "Integer",
               "remark": "",
               "chnname": "团队ID",
               "pk": true,
-              "notNull": true
+              "notNull": true,
+              "autoIncrement": true
             },
             {
               "name": "team_name",
@@ -263,11 +266,12 @@
           "fields": [
             {
               "name": "user_id",
-              "type": "IdOrKey",
+              "type": "Integer",
               "remark": "",
               "chnname": "用户ID",
               "pk": true,
-              "notNull": true
+              "notNull": true,
+              "autoIncrement": true
             },
             {
               "name": "username",
@@ -417,7 +421,7 @@
                 "y": 212.6547619047619
               },
               {
-                "x": 751.3037109375,
+                "x": 757.3037109375,
                 "y": 222.41666666666669
               }
             ],

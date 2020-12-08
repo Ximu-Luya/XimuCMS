@@ -5,7 +5,11 @@ Vue.use(Vuex)
 Vue.prototype.$store = new Vuex.Store({
     state: {
         collapse: false,
-        tagsList: []
+        tagsList: [],
+        userinfo: {
+            name: '西木',
+            id: 1
+        }
     },
     mutations: {
         collapseChange(state, nowstatus) {
@@ -13,6 +17,9 @@ Vue.prototype.$store = new Vuex.Store({
         },
         setTags(state, nowtagsList) {
             state.tagsList = nowtagsList;
+        },
+        setUserinfo(state, nowUserinfo){
+            state.userinfo = nowUserinfo;
         }
     },
     getters: {
@@ -21,6 +28,9 @@ Vue.prototype.$store = new Vuex.Store({
         },
         gettagsList: (state) => {
             return state.tagsList;
+        },
+        getUserinfo: (state) => {
+            return state.userinfo;
         }
     }
 })
