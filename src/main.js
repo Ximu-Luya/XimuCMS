@@ -53,7 +53,8 @@ Vue.config.productionTip = false;
 
 //使用钩子函数对路由进行权限跳转
 router.beforeEach((to, from, next) => {
-    document.title = `${to.meta.title} | XimuCMS`; //改变页面标题名称
+    if (to.path !== '/public/index') document.title = `${to.meta.title} | 云计算和并行计算`; //改变页面标题名称
+    else document.title = `云计算和并行计算团队`;
     next();
     // const role = localStorage.getItem('username');
     // const noLoginPaths = ['/login', '/register', '/forgetpassword'];

@@ -14,13 +14,13 @@ export default new Router({
             component: () => import( /* webpackChunkName: "public" */ '../components/PublicContainer.vue'),
             redirect: '/public/index',
             meta: {
-                title: '首页'
+                title: '云计算和并行计算'
             },
             children: [{
                     path: 'index',
                     component: () => import( /* webpackChunkName: "public" */ '../components/public/Index.vue'),
                     meta: {
-                        title: '首页'
+                        title: '云计算和并行计算'
                     }
                 },
                 {
