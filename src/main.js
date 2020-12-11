@@ -1,15 +1,15 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router' // 引入目录下自定义的router API
-import ElementUI from 'element-ui'; //引入element-ui
-import 'element-ui/lib/theme-chalk/index.css'; //引入element-ui样式
-import axios from 'axios';
+import ElementUI from 'element-ui' //引入element-ui
+import 'element-ui/lib/theme-chalk/index.css';//引入element-ui样式
+import axios from 'axios'
 import "./store/vuex"
 
-
+//使用element-ui并修改组件内置大小
 Vue.use(ElementUI, {
     size: 'small'
-}); //使用element-ui并修改组件内置大小
+});
 
 // axios基础配置并定义axios全局变量
 Vue.prototype.$axios = process.env.NODE_ENV === 'development' ? axios.create({

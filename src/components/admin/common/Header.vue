@@ -16,22 +16,21 @@
                     </el-tooltip>
                 </div>
                 <!-- 消息中心 -->
-                <div class="btn-bell">
+                <!--<div class="btn-bell">
                     <el-tooltip
                         effect="dark"
                         :content="message?`有${message}条未读消息`:`消息中心`"
                         placement="bottom"
                     >
                         <i class="el-icon-bell"></i>
-                        <!-- <router-link to="/tabs">
+                         <router-link to="/tabs">
                             <i class="el-icon-bell"></i>
-                        </router-link> -->
+                        </router-link>
                     </el-tooltip>
-                    <!-- 新消息红点 -->
                     <span class="btn-bell-badge" v-if="message"></span>
-                </div>
+                </div> -->
                 <!-- 用户头像 -->
-                <!-- <div class="user-avator">
+                <!-- <div class="user-aviator">
                     <img src="@/assets/img/teacher头像.jpg" />
                 </div> -->
                 <!-- 用户名下拉菜单 -->
@@ -48,7 +47,7 @@
                             <el-dropdown-item>项目仓库</el-dropdown-item>
                         </a>
                         <el-dropdown-item divided command="person">个人中心</el-dropdown-item>
-                        <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
+                        <el-dropdown-item divided command="logout">退出登录</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
                 <!-- 版权信息 -->
@@ -90,7 +89,6 @@ export default {
             collapse: false,
             fullscreen: false,
             name: 'Ximu',
-            message: 0,
             copyrightdrawer: false,
             version: '0.1.1',
             codeRequire: Boolean,
@@ -124,12 +122,12 @@ export default {
     methods: {
         // 用户名下拉菜单选择事件
         handleCommand(command) {
-            if (command == 'loginout') {
+            if (command === 'logout') {
                 localStorage.removeItem('ms_username');
                 this.$router.push('/login');
             }
 
-            if (command == 'person') {
+            if (command === 'person') {
                 this.$router.push('/person');
             }
         },

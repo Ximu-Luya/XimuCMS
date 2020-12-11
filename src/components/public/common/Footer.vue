@@ -7,13 +7,14 @@
                 alt=""
             />
             <p>
-                Business Cooperation: wangtiejun@cuit.edu.cn<br />Address: No.24
-                Block 1, Xuefu Road, Chengdu, China<br />Office: No.305 Room,
-                Electronic computing center building<br />
+                Business Cooperation: wangtiejun@cuit.edu.cn<br/>Address: No.24
+                Block 1, Xuefu Road, Chengdu, China<br/>Office: No.305 Room,
+                Electronic computing center building<br/>
             </p>
         </div>
         <div class="copyRight">
             <p>All Copyright Reserved © Ximu Studio</p>
+            <router-link to="/admin" replace style="color: #ffffff">内容管理</router-link>
         </div>
     </div>
 </template>
@@ -40,6 +41,7 @@ export default {
 
     .cuit {
         padding: 20px 0;
+
         p {
             line-height: 40px;
         }

@@ -8,7 +8,8 @@ Vue.prototype.$store = new Vuex.Store({
         tagsList: [],
         userinfo: {
             name: '西木',
-            id: 1
+            id: 1,
+            team_id: 2
         }
     },
     mutations: {
