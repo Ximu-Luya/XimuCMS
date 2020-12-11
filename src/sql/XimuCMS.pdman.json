@@ -28,7 +28,7 @@
               "name": "blog_type",
               "type": "IdOrKey",
               "remark": "原创、转载、活动事件博客",
-              "chnname": "博客类型"
+              "chnname": "博客类型ID？"
             },
             {
               "name": "blog_content",
@@ -47,6 +47,30 @@
               "type": "DateTime",
               "remark": "",
               "chnname": "最后更新时间"
+            },
+            {
+              "name": "untitled",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "发表时间？"
+            },
+            {
+              "name": "untitled1",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "图片？"
+            },
+            {
+              "name": "untitled2",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "版块？"
+            },
+            {
+              "name": "untitled3",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "标签列表"
             }
           ],
           "indexs": [],
@@ -122,6 +146,24 @@
               "type": "MiddleString",
               "remark": "",
               "chnname": "成果细节"
+            },
+            {
+              "name": "untitled",
+              "type": "DefaultString",
+              "remark": "教学、科研、学生指导",
+              "chnname": "大类型"
+            },
+            {
+              "name": "untitled1",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "取得时间"
+            },
+            {
+              "name": "untitled2",
+              "type": "DefaultString",
+              "remark": "论文、专利、软件著作权、奖项",
+              "chnname": "成果类型"
             },
             {
               "name": "user_id",
@@ -207,8 +249,26 @@
             {
               "name": "team_type",
               "type": "Name",
-              "remark": "",
+              "remark": "学生团队、教师团队",
               "chnname": "团队类型"
+            },
+            {
+              "name": "untitled",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "指导老师ID"
+            },
+            {
+              "name": "untitled1",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "负责人ID"
+            },
+            {
+              "name": "untitled2",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "介绍"
             }
           ],
           "indexs": [],
@@ -320,6 +380,12 @@
               "type": "Name",
               "remark": "",
               "chnname": "角色"
+            },
+            {
+              "name": "untitled",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "电话"
             }
           ],
           "indexs": [],
@@ -444,7 +510,7 @@
                 "y": 112.17857142857143
               }
             ],
-            "sourceAnchor": 7,
+            "sourceAnchor": 12,
             "targetAnchor": 0
           },
           {

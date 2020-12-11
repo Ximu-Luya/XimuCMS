@@ -14,7 +14,7 @@
         </div>
         <div class="copyRight">
             <p>All Copyright Reserved © Ximu Studio</p>
-            <router-link to="/admin" replace style="color: #ffffff">内容管理</router-link>
+            <a href="https://beian.miit.gov.cn/#/Integrated/index" style="color: #ffffff">蜀ICP备2020027832号-1</a>
         </div>
     </div>
 </template>
