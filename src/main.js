@@ -13,7 +13,7 @@ Vue.use(ElementUI, {
 
 // axios基础配置并定义axios全局变量
 Vue.prototype.$axios = process.env.NODE_ENV === 'development' ? axios.create({
-    baseURL: 'http://127.0.0.1:8085',
+    baseURL: 'http://127.0.0.1:8067',
     timeout: 5000
 }) : axios.create({
     // 此处填入生产环境请求baseURL

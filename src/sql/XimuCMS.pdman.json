@@ -8,8 +8,8 @@
           "title": "blog",
           "fields": [
             {
-              "name": "blog_id",
-              "type": "Integer",
+              "name": "id",
+              "type": "IdOrKeyNumber",
               "remark": "",
               "chnname": "博客ID",
               "pk": true,
@@ -17,7 +17,7 @@
               "autoIncrement": true
             },
             {
-              "name": "blog_title",
+              "name": "title",
               "type": "ShortString",
               "remark": "",
               "chnname": "标题",
@@ -25,10 +25,10 @@
               "notNull": false
             },
             {
-              "name": "blog_type",
-              "type": "IdOrKey",
-              "remark": "原创、转载、活动事件博客",
-              "chnname": "博客类型ID？"
+              "name": "tag_list",
+              "type": "MiddleString",
+              "remark": "原创、转载、活动",
+              "chnname": "标签列表"
             },
             {
               "name": "blog_content",
@@ -38,7 +38,7 @@
             },
             {
               "name": "user_id",
-              "type": "IdOrKey",
+              "type": "IdOrKeyNumber",
               "remark": "",
               "chnname": "作者ID"
             },
@@ -49,28 +49,16 @@
               "chnname": "最后更新时间"
             },
             {
-              "name": "untitled",
-              "type": "DefaultString",
+              "name": "release_time",
+              "type": "DateTime",
               "remark": "",
-              "chnname": "发表时间？"
+              "chnname": "发表时间"
             },
             {
-              "name": "untitled1",
-              "type": "DefaultString",
-              "remark": "",
-              "chnname": "图片？"
-            },
-            {
-              "name": "untitled2",
-              "type": "DefaultString",
-              "remark": "",
-              "chnname": "版块？"
-            },
-            {
-              "name": "untitled3",
-              "type": "DefaultString",
-              "remark": "",
-              "chnname": "标签列表"
+              "name": "section",
+              "type": "Name",
+              "remark": "公示板块、内部公示板块",
+              "chnname": "版块"
             }
           ],
           "indexs": [],
@@ -127,8 +115,8 @@
           "title": "achievement",
           "fields": [
             {
-              "name": "achievement_id",
-              "type": "Integer",
+              "name": "id",
+              "type": "IdOrKeyNumber",
               "remark": "",
               "chnname": "成果ID",
               "pk": true,
@@ -136,38 +124,38 @@
               "autoIncrement": true
             },
             {
-              "name": "achievement_name",
-              "type": "ShortString",
+              "name": "name",
+              "type": "MiddleString",
               "remark": "",
               "chnname": "名称"
             },
             {
-              "name": "achievement_detail",
-              "type": "MiddleString",
+              "name": "detail",
+              "type": "LongText",
               "remark": "",
               "chnname": "成果细节"
             },
             {
-              "name": "untitled",
-              "type": "DefaultString",
+              "name": "type1",
+              "type": "IdOrKey",
               "remark": "教学、科研、学生指导",
-              "chnname": "大类型"
+              "chnname": "一级类型"
             },
             {
-              "name": "untitled1",
-              "type": "DefaultString",
+              "name": "type2",
+              "type": "IdOrKey",
+              "remark": "论文、专利、软件著作权、奖项",
+              "chnname": "二级类型"
+            },
+            {
+              "name": "get_time",
+              "type": "DateTime",
               "remark": "",
               "chnname": "取得时间"
             },
             {
-              "name": "untitled2",
-              "type": "DefaultString",
-              "remark": "论文、专利、软件著作权、奖项",
-              "chnname": "成果类型"
-            },
-            {
               "name": "user_id",
-              "type": "IdOrKey",
+              "type": "IdOrKeyNumber",
               "remark": "",
               "chnname": "最后编辑者"
             },
@@ -232,8 +220,8 @@
           "title": "team",
           "fields": [
             {
-              "name": "team_id",
-              "type": "Integer",
+              "name": "id",
+              "type": "IdOrKeyNumber",
               "remark": "",
               "chnname": "团队ID",
               "pk": true,
@@ -247,26 +235,26 @@
               "chnname": "团队名称"
             },
             {
-              "name": "team_type",
+              "name": "type",
               "type": "Name",
               "remark": "学生团队、教师团队",
               "chnname": "团队类型"
             },
             {
-              "name": "untitled",
-              "type": "DefaultString",
+              "name": "teacher_id",
+              "type": "IdOrKeyNumber",
               "remark": "",
               "chnname": "指导老师ID"
             },
             {
-              "name": "untitled1",
-              "type": "DefaultString",
+              "name": "leader_id",
+              "type": "IdOrKeyNumber",
               "remark": "",
               "chnname": "负责人ID"
             },
             {
-              "name": "untitled2",
-              "type": "DefaultString",
+              "name": "introduction",
+              "type": "LongString",
               "remark": "",
               "chnname": "介绍"
             }
@@ -325,8 +313,8 @@
           "title": "user",
           "fields": [
             {
-              "name": "user_id",
-              "type": "Integer",
+              "name": "id",
+              "type": "IdOrKeyNumber",
               "remark": "",
               "chnname": "用户ID",
               "pk": true,
@@ -335,55 +323,57 @@
             },
             {
               "name": "username",
-              "type": "DefaultString",
+              "type": "LongKey",
               "remark": "",
-              "chnname": "用户名"
+              "chnname": "用户账号"
             },
             {
               "name": "password",
-              "type": "DefaultString",
+              "type": "LongKey",
               "remark": "",
               "chnname": "密码"
             },
             {
-              "name": "user_name",
+              "name": "name",
               "type": "Name",
               "remark": "",
               "chnname": "用户姓名"
             },
             {
-              "name": "user_email",
+              "name": "email",
               "type": "ShortString",
               "remark": "",
               "chnname": "邮件"
             },
             {
               "name": "team_id",
-              "type": "IdOrKey",
+              "type": "IdOrKeyNumber",
               "remark": "",
               "chnname": "团队ID"
             },
             {
               "name": "job",
               "type": "Name",
-              "remark": "",
+              "remark": "自填",
               "chnname": "团队担任工作"
             },
             {
-              "name": "user_status",
-              "type": "IdOrKey",
-              "remark": "",
-              "chnname": "用户状态"
+              "name": "status",
+              "type": "ShortShortString",
+              "remark": "已激活、未激活",
+              "chnname": "用户状态",
+              "pk": false,
+              "notNull": false
             },
             {
               "name": "role",
               "type": "Name",
-              "remark": "",
+              "remark": "超级管理员、管理员、贡献者",
               "chnname": "角色"
             },
             {
-              "name": "untitled",
-              "type": "DefaultString",
+              "name": "telephone",
+              "type": "ShortShortString",
               "remark": "",
               "chnname": "电话"
             }
@@ -445,32 +435,32 @@
             "shape": "table",
             "title": "achievement",
             "moduleName": false,
-            "x": 250,
-            "y": 230,
+            "x": 220,
+            "y": 240,
             "id": "92c98851"
-          },
-          {
-            "shape": "table",
-            "title": "blog",
-            "moduleName": false,
-            "x": 270,
-            "y": 80,
-            "id": "6539d059"
           },
           {
             "shape": "table",
             "title": "user",
             "moduleName": false,
-            "x": 580,
-            "y": 180,
+            "x": 590,
+            "y": 130,
             "id": "79a17323"
+          },
+          {
+            "shape": "table",
+            "title": "blog",
+            "moduleName": false,
+            "x": 220,
+            "y": 0,
+            "id": "6539d059"
           },
           {
             "shape": "table",
             "title": "team",
             "moduleName": false,
-            "x": 870,
-            "y": 230,
+            "x": 990,
+            "y": 140,
             "id": "56ff7f15"
           }
         ],
@@ -478,17 +468,55 @@
           {
             "shape": "erdRelation",
             "relation": "0,n:1",
-            "source": "79a17323",
-            "target": "56ff7f15",
-            "id": "8de799f5",
+            "source": "56ff7f15",
+            "target": "79a17323",
+            "id": "cc52b16a",
             "controlPoints": [
               {
-                "x": 715.7783203125,
-                "y": 212.6547619047619
+                "x": 851.3056640625,
+                "y": 182.78333333333333
               },
               {
-                "x": 757.3037109375,
-                "y": 222.41666666666669
+                "x": 729.6904296875,
+                "y": 52.16304347826087
+              }
+            ],
+            "sourceAnchor": 8,
+            "targetAnchor": 1
+          },
+          {
+            "shape": "erdRelation",
+            "relation": "0,n:1",
+            "source": "56ff7f15",
+            "target": "79a17323",
+            "id": "3c72a6be",
+            "controlPoints": [
+              {
+                "x": 851.3056640625,
+                "y": 162.65
+              },
+              {
+                "x": 729.6904296875,
+                "y": 52.16304347826087
+              }
+            ],
+            "sourceAnchor": 6,
+            "targetAnchor": 1
+          },
+          {
+            "shape": "erdRelation",
+            "relation": "0,n:1",
+            "source": "79a17323",
+            "target": "56ff7f15",
+            "id": "8afc439a",
+            "controlPoints": [
+              {
+                "x": 729.6904296875,
+                "y": 152.59782608695653
+              },
+              {
+                "x": 851.3056640625,
+                "y": 102.25
               }
             ],
             "sourceAnchor": 11,
@@ -497,39 +525,39 @@
           {
             "shape": "erdRelation",
             "relation": "0,n:1",
-            "source": "92c98851",
+            "source": "6539d059",
             "target": "79a17323",
-            "id": "1937e187",
+            "id": "6c5d3cb6",
             "controlPoints": [
               {
-                "x": 407.126953125,
-                "y": 262.75
+                "x": 367.3720703125,
+                "y": 22.61842105263159
               },
               {
-                "x": 444.2216796875,
-                "y": 112.17857142857143
+                "x": 450.3095703125,
+                "y": 52.16304347826087
               }
             ],
-            "sourceAnchor": 12,
+            "sourceAnchor": 9,
             "targetAnchor": 0
           },
           {
             "shape": "erdRelation",
             "relation": "0,n:1",
-            "source": "6539d059",
+            "source": "92c98851",
             "target": "79a17323",
-            "id": "fd416160",
+            "id": "8947296b",
             "controlPoints": [
               {
-                "x": 409.1240234375,
-                "y": 122.78333333333333
+                "x": 366.033203125,
+                "y": 302.82894736842104
               },
               {
-                "x": 444.2216796875,
-                "y": 112.17857142857143
+                "x": 450.3095703125,
+                "y": 52.16304347826087
               }
             ],
-            "sourceAnchor": 9,
+            "sourceAnchor": 13,
             "targetAnchor": 0
           }
         ]
@@ -538,23 +566,34 @@
         {
           "relation": "0,n:1",
           "from": {
-            "entity": "user",
-            "field": "team_id"
+            "entity": "team",
+            "field": "leader_id"
           },
           "to": {
-            "entity": "team",
-            "field": "team_id"
+            "entity": "user",
+            "field": "id"
           }
         },
         {
           "relation": "0,n:1",
           "from": {
-            "entity": "achievement",
-            "field": "user_id"
+            "entity": "team",
+            "field": "teacher_id"
           },
           "to": {
             "entity": "user",
-            "field": "user_id"
+            "field": "id"
+          }
+        },
+        {
+          "relation": "0,n:1",
+          "from": {
+            "entity": "user",
+            "field": "team_id"
+          },
+          "to": {
+            "entity": "team",
+            "field": "id"
           }
         },
         {
@@ -565,7 +604,18 @@
           },
           "to": {
             "entity": "user",
+            "field": "id"
+          }
+        },
+        {
+          "relation": "0,n:1",
+          "from": {
+            "entity": "achievement",
             "field": "user_id"
+          },
+          "to": {
+            "entity": "user",
+            "field": "id"
           }
         }
       ]
@@ -573,27 +623,6 @@
   ],
   "dataTypeDomains": {
     "datatype": [
-      {
-        "name": "默认字串",
-        "code": "DefaultString",
-        "apply": {
-          "JAVA": {
-            "type": "String"
-          },
-          "MYSQL": {
-            "type": "VARCHAR(32)"
-          },
-          "ORACLE": {
-            "type": "NVARCHAR2(32)"
-          },
-          "SQLServer": {
-            "type": "NVARCHAR(32)"
-          },
-          "PostgreSQL": {
-            "type": "VARCHAR(32)"
-          }
-        }
-      },
       {
         "name": "标识号",
         "code": "IdOrKey",
@@ -612,6 +641,27 @@
           },
           "PostgreSQL": {
             "type": "VARCHAR(32)"
+          }
+        }
+      },
+      {
+        "name": "标识号-数字",
+        "code": "IdOrKeyNumber",
+        "apply": {
+          "JAVA": {
+            "type": "Integer"
+          },
+          "ORACLE": {
+            "type": "INT"
+          },
+          "MYSQL": {
+            "type": "INT"
+          },
+          "SQLServer": {
+            "type": "INT"
+          },
+          "PostgreSQL": {
+            "type": "INT"
           }
         }
       },
@@ -665,37 +715,37 @@
             "type": "String"
           },
           "MYSQL": {
-            "type": "VARCHAR(128)"
+            "type": "VARCHAR(64)"
           },
           "ORACLE": {
-            "type": "NVARCHAR2(128)"
+            "type": "NVARCHAR2(64)"
           },
           "SQLServer": {
-            "type": "NVARCHAR(128)"
+            "type": "NVARCHAR(64)"
           },
           "PostgreSQL": {
-            "type": "VARCHAR(128)"
+            "type": "VARCHAR(64)"
           }
         }
       },
       {
-        "name": "备注说明",
-        "code": "Intro",
+        "name": "字串-极短",
+        "code": "ShortShortString",
         "apply": {
           "JAVA": {
             "type": "String"
           },
           "MYSQL": {
-            "type": "VARCHAR(512)"
+            "type": "VARCHAR(32)"
           },
           "ORACLE": {
-            "type": "NVARCHAR2(512)"
+            "type": "NVARCHAR2(32)"
           },
           "SQLServer": {
-            "type": "NVARCHAR(512)"
+            "type": "NVARCHAR(32)"
           },
           "PostgreSQL": {
-            "type": "VARCHAR(512)"
+            "type": "VARCHAR(32)"
           }
         }
       },
@@ -707,6 +757,27 @@
             "type": "String"
           },
           "MYSQL": {
+            "type": "VARCHAR(64)"
+          },
+          "ORACLE": {
+            "type": "NVARCHAR2(64)"
+          },
+          "SQLServer": {
+            "type": "NVARCHAR(64)"
+          },
+          "PostgreSQL": {
+            "type": "VARCHAR(64)"
+          }
+        }
+      },
+      {
+        "name": "字串-中",
+        "code": "MiddleString",
+        "apply": {
+          "JAVA": {
+            "type": "String"
+          },
+          "MYSQL": {
             "type": "VARCHAR(128)"
           },
           "ORACLE": {
@@ -721,27 +792,6 @@
         }
       },
       {
-        "name": "字串-中",
-        "code": "MiddleString",
-        "apply": {
-          "JAVA": {
-            "type": "String"
-          },
-          "MYSQL": {
-            "type": "VARCHAR(1024)"
-          },
-          "ORACLE": {
-            "type": "NVARCHAR2(1024)"
-          },
-          "SQLServer": {
-            "type": "NVARCHAR(1024)"
-          },
-          "PostgreSQL": {
-            "type": "VARCHAR(1024)"
-          }
-        }
-      },
-      {
         "name": "字串-长",
         "code": "LongString",
         "apply": {
@@ -749,16 +799,16 @@
             "type": "String"
           },
           "ORACLE": {
-            "type": "NVARCHAR2(3072)"
+            "type": "NVARCHAR2(1024)"
           },
           "MYSQL": {
-            "type": "VARCHAR(3072)"
+            "type": "VARCHAR(1024)"
           },
           "SQLServer": {
-            "type": "NVARCHAR(3072)"
+            "type": "NVARCHAR(1024)"
           },
           "PostgreSQL": {
-            "type": "VARCHAR(3072)"
+            "type": "VARCHAR(1024)"
           }
         }
       },
@@ -801,27 +851,6 @@
           },
           "PostgreSQL": {
             "type": "DECIMAL(32,10)"
-          }
-        }
-      },
-      {
-        "name": "比例",
-        "code": "Ratio",
-        "apply": {
-          "MYSQL": {
-            "type": "DECIMAL(4,2)"
-          },
-          "JAVA": {
-            "type": "Double"
-          },
-          "ORACLE": {
-            "type": "NUMBER(4,2)"
-          },
-          "SQLServer": {
-            "type": "DECIMAL(4,2)"
-          },
-          "PostgreSQL": {
-            "type": "DECIMAL(4,2)"
           }
         }
       },
@@ -910,27 +939,6 @@
         }
       },
       {
-        "name": "数据字典",
-        "code": "Dict",
-        "apply": {
-          "JAVA": {
-            "type": "String"
-          },
-          "MYSQL": {
-            "type": "VARCHAR(32)"
-          },
-          "ORACLE": {
-            "type": "VARCHAR2(32)"
-          },
-          "SQLServer": {
-            "type": "VARCHAR(32)"
-          },
-          "PostgreSQL": {
-            "type": "VARCHAR(32)"
-          }
-        }
-      },
-      {
         "name": "日期",
         "code": "Date",
         "apply": {
@@ -969,27 +977,6 @@
           },
           "PostgreSQL": {
             "type": "DATE"
-          }
-        }
-      },
-      {
-        "name": "单字符",
-        "code": "Char",
-        "apply": {
-          "MYSQL": {
-            "type": "CHAR(1)"
-          },
-          "ORACLE": {
-            "type": "CHAR(1)"
-          },
-          "JAVA": {
-            "type": "String"
-          },
-          "SQLServer": {
-            "type": "CHAR(1)"
-          },
-          "PostgreSQL": {
-            "type": "CHAR(1)"
           }
         }
       }
