@@ -31,6 +31,12 @@
               "chnname": "标签列表"
             },
             {
+              "name": "section",
+              "type": "Name",
+              "remark": "公示板块、内部公示板块",
+              "chnname": "版块"
+            },
+            {
               "name": "blog_content",
               "type": "LongText",
               "remark": "markdown文本",
@@ -53,12 +59,6 @@
               "type": "DateTime",
               "remark": "",
               "chnname": "发表时间"
-            },
-            {
-              "name": "section",
-              "type": "Name",
-              "remark": "公示板块、内部公示板块",
-              "chnname": "版块"
             }
           ],
           "indexs": [],
@@ -149,7 +149,7 @@
             },
             {
               "name": "get_time",
-              "type": "DateTime",
+              "type": "Date",
               "remark": "",
               "chnname": "取得时间"
             },
@@ -530,15 +530,15 @@
             "id": "6c5d3cb6",
             "controlPoints": [
               {
-                "x": 367.3720703125,
-                "y": 22.61842105263159
+                "x": 72.6279296875,
+                "y": 42.72368421052633
               },
               {
                 "x": 450.3095703125,
                 "y": 52.16304347826087
               }
             ],
-            "sourceAnchor": 9,
+            "sourceAnchor": 10,
             "targetAnchor": 0
           },
           {

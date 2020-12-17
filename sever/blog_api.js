@@ -15,9 +15,9 @@ connection.connect()
 
 // 获取博客列表数据
 router.get('/getBlogData/:page', function (req, res){
-    let sql = "select blog_id, blog_title, blog_type, user.user_name, update_time " +
+    let sql = "select blog.id, title, tag_list, section, user.name, update_time " +
         "from blog " +
-        "left join user on blog.user_id = user.user_id " +
+        "left join user on blog.user_id = user.id " +
         "limit " + ((req.params.page-1) * 10) + ", 10"
     connection.query('select count(*) as pageTotal from blog', function (err, result1){
         if (err) throw err
@@ -33,22 +33,24 @@ router.get('/getBlogData/:page', function (req, res){
 // 新增博客
 router.post('/createNewBlog', jsonParser, (req, res) => {
     let blog = req.body
-    let sql = "insert into blog(blog_title, blog_type, blog_content, user_id, update_time) value(?, ?, ?, ?, ?)"
+    let sql = "insert into " +
+        "blog(title, tag_list, section, user_id, blog_content, release_time, update_time) " +
+        "value(?, ?, ?, ?, ?, ?, ?)"
     let datetime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
-    let params = [blog.title, blog.type, blog.content, blog.author_id, datetime]
+    let params = [blog.title, blog.tag_list, blog.section, blog.author_id, blog.content, datetime, datetime]
     connection.query(sql, params, function (err) {
         if (err) throw err
         console.log('已新增标题为',blog.title, '的博客')
-        res.send(JSON.stringify({"status": 1}))
+        res.sendStatus(200)
     })
 })
 
 // 获取指定id博客详情
 router.get('/getBlogDetail/:id', (req, res) => {
-    let sql = "select blog_id, blog_title, blog_type, user.user_id, user.user_name, blog_content " +
+    let sql = "select blog.id, title, tag_list, section, user.name, blog_content " +
         "from blog " +
-        "left join user on blog.user_id = user.user_id " +
-        "where blog_id = " + req.params.id
+        "left join user on blog.user_id = user.id " +
+        "where blog.id = " + req.params.id
     connection.query(sql, function (err, result) {
         if (err) throw err
         console.log('已获取id为',req.params.id, '的博客详情')
@@ -59,25 +61,28 @@ router.get('/getBlogDetail/:id', (req, res) => {
 // 更新指定id博客详情
 router.post('/updateBlog/:id', jsonParser, (req, res) => {
     let blog = req.body
-    let sql = "update blog set blog_title='" + blog.title +
-        "', blog_type='" + blog.type +
+    let datetime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+    let sql = "update blog set title='" + blog.title +
+        "', tag_list='" + blog.tag_list +
+        "', section='" + blog.section +
         "', blog_content='" + blog.content +
-        "' where blog_id = " + req.params.id
+        "', update_time='" + datetime +
+        "' where id = " + req.params.id
     connection.query(sql, function (err) {
         if (err) throw err
         console.log('已更新id为',req.params.id, '的博客')
-        res.send(JSON.stringify({"status": 1}))
+        res.sendStatus(200)
     })
 })
 
 // 删除指定id的博客
 router.post('/deleteBlog', jsonParser, (req, res) => {
     let blog = req.body
-    let sql = "delete from blog where blog_id in (" + blog.blog_ids.toString() + ')'
+    let sql = "delete from blog where id in (" + blog.blog_ids.toString() + ')'
     connection.query(sql, function (err){
         if (err) throw err
         console.log('已删除id为',blog.blog_ids.toString(), '的博客')
-        res.send(JSON.stringify({"status": 1}))
+        res.sendStatus(200)
     })
 })
 

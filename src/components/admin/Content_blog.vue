@@ -8,12 +8,14 @@
                 clearable
                 filterable
                 placeholder="作者"
-                remote>
+                remote
+            >
                 <el-option
                     v-for="item in authorOptions"
-                    :key="item['user_id']"
-                    :value="item['user_id']"
-                    :label="item['user_name']">
+                    :key="item['id']"
+                    :value="item['id']"
+                    :label="item['name']"
+                >
                 </el-option>
             </el-select>
             <el-select
@@ -47,17 +49,17 @@
         >
             <el-table-column align="center" type="selection" width="50"></el-table-column>
             <el-table-column label="博客标题" min-width="200" prop="title"></el-table-column>
-            <el-table-column align="center" label="博客类型" min-width="80">
+            <el-table-column align="center" label="博客标签" min-width="100">
                 <template slot-scope="scope">
-                    <el-tag v-if="scope.row.type === '转载'" :type="'success'">
-                        {{ scope.row.type }}
-                    </el-tag>
-                    <el-tag v-if="scope.row.type === '原创'" :type="'danger'">
-                        {{ scope.row.type }}
-                    </el-tag>
-                    <el-tag v-if="scope.row.type === '活动'" :type="'warning'">
-                        {{ scope.row.type }}
-                    </el-tag>
+                    <el-tag v-if="scope.row.tag_list.indexOf('转载') !== -1" :type="'success'">转载</el-tag>
+                    <el-tag v-if="scope.row.tag_list.indexOf('原创') !== -1" :type="'danger'">原创</el-tag>
+                    <el-tag v-if="scope.row.tag_list.indexOf('活动') !== -1" :type="'warning'">活动</el-tag>
+                </template>
+            </el-table-column>
+            <el-table-column align="center" label="博客板块" min-width="100">
+                <template slot-scope="scope">
+                    <el-tag v-if="scope.row.section === '内部展示'" :type="'success'">内部展示</el-tag>
+                    <el-tag v-if="scope.row.section === '外部公示'" :type="'warning'">外部公示</el-tag>
                 </template>
             </el-table-column>
             <el-table-column label="作者" min-width="80" prop="author"></el-table-column>
@@ -97,7 +99,7 @@
                 @current-change="handlePageChange"
             ></el-pagination>
         </div>
-        
+
         <el-dialog
             :visible.sync="dialogBlogVisible"
             custom-class="blog-dialog"
@@ -109,21 +111,29 @@
         >
             <el-form :model="blogDetails" ref="blogDetails" label-width="80px">
                 <el-row :gutter="20">
-                    <el-col :span="24" :md="12">
+                    <el-col :span="24" :md="24">
                         <el-form-item label="博客标题" prop="title">
                             <el-input v-model="blogDetails.title" placeholder="请填写博客标题"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12" :md="6">
-                        <el-form-item label="博客类型" prop="type">
-                            <el-select v-model="blogDetails.type" placeholder="请选择博客类型">
+                    <el-col :span="8">
+                        <el-form-item label="博客类型" prop="tag_list">
+                            <el-select v-model="blogDetails.tag_list" placeholder="请选择博客类型" multiple>
                                 <el-option value="原创"></el-option>
                                 <el-option value="转载"></el-option>
                                 <el-option value="活动"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12" :md="6">
+                    <el-col :span="8">
+                        <el-form-item label="博客板块" prop="section">
+                            <el-select v-model="blogDetails.section" placeholder="请选择博客板块">
+                                <el-option value="内部展示"></el-option>
+                                <el-option value="外部公示"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
                         <el-form-item label="博客作者" prop="author_id">
                             <el-input v-model="blogDetails.author" disabled></el-input>
                         </el-form-item>
@@ -135,11 +145,11 @@
                     </el-col>
                 </el-row>
             </el-form>
-            
+
             <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogBlogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="handleSave">确 定</el-button>
-      </span>
+                <el-button @click="dialogBlogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="handleSave">确 定</el-button>
+            </span>
         </el-dialog>
     </div>
 </template>
@@ -177,7 +187,8 @@ export default {
                 dialogTitle: '',
                 id: '',
                 title: '',
-                type: '',
+                tag_list: [],
+                section: '',
                 author: '',
                 author_id: '',
                 content: ''
@@ -187,7 +198,7 @@ export default {
     computed: {
         userInfo() {
             return this.$store.getters.getUserinfo;
-        }
+        },
     },
     components: {
         'mavon-editor': mavonEditor.mavonEditor
@@ -203,12 +214,13 @@ export default {
             _this.$axios.get("/getBlogData/" + page).then((res) => {
                 _this.pagination.pageTotal = res.data.pageTotal;
                 for (let item of res.data.blogData) {
-                    const {blog_id, blog_title, blog_type, user_name, update_time} = item;
+                    const {id, title, tag_list, section, name, update_time} = item;
                     _this.tableData.push({
-                        id: blog_id,
-                        title: blog_title,
-                        type: blog_type,
-                        author: user_name,
+                        id: id,
+                        title: title,
+                        tag_list: tag_list,
+                        section: section,
+                        author: name,
                         updatetime: update_time,
                     });
                 }
@@ -219,7 +231,7 @@ export default {
             const _this = this;
             _this.authorOptions = [];
             if (author) _this.$axios.get('/userlike/' + author).then(res => {
-                for (let item of res.data){
+                for (let item of res.data) {
                     _this.authorOptions.push(item)
                 }
             })
@@ -250,15 +262,16 @@ export default {
         handleEdit(row) {
             const _this = this;
             _this.$axios.get('/getBlogDetail/' + row.id).then(res => {
-                const {blog_id, blog_title, blog_type, user_id, user_name, blog_content} = res.data[0];
+                const {id, title, tag_list, section, user_id, name, blog_content} = res.data[0];
                 _this.$nextTick(() => {
                     _this.blogDetails = {
                         order: 'edit',
                         dialogTitle: '编辑博客',
-                        id: blog_id,
-                        title: blog_title,
-                        type: blog_type,
-                        author: user_name,
+                        id: id,
+                        title: title,
+                        tag_list: tag_list.split(","),
+                        section: section,
+                        author: name,
                         author_id: user_id,
                         content: blog_content
                     }
@@ -278,7 +291,7 @@ export default {
                         ? {"blog_ids": row}
                         : {"blog_ids": [row.id]})
                     .then(res => {
-                        if (res.data.status === 1) {
+                        if (res.status === 200) {
                             _this.$message.success("删除成功");
                             _this.getBlogData(_this.pagination.pageCurrent);
                         }
@@ -301,24 +314,31 @@ export default {
         // 处理博客编辑保存
         handleSave() {
             const _this = this;
+            // 对标签列表的数组进行字符串转换
+            const {title, tag_list, section, author_id, content} = _this.blogDetails;
+            const blog = {
+                title: title,
+                tag_list: tag_list.toString(),
+                section: section,
+                author_id: author_id,
+                content: content
+            }
             // 判断博客信息是否填写完整
-            for (let item in _this.blogDetails)
-                if (_this.blogDetails[item] === '') {
+            for (let item in blog)
+                if (blog[item] === '') {
                     this.$message({
                         type: 'error',
                         message: '请检查信息是否填写完整'
                     });
                     return
                 }
+            // 向后端发送请求
             _this.$axios.post(_this.blogDetails.order === 'new'
                 ? '/createNewBlog'
-                : ('/updateBlog/' + _this.blogDetails.id), _this.$refs['blogDetails'].model)
+                : ('/updateBlog/' + _this.blogDetails.id), blog)
                 .then(res => {
-                    if (res.data.status === 1) {
-                        _this.$message({
-                            type: 'success',
-                            message: '保存成功'
-                        });
+                    if (res.status === 200) {
+                        _this.$message.success('保存成功');
                         _this.dialogBlogVisible = false;
                         _this.getBlogData(_this.pagination.pageCurrent);
                     }

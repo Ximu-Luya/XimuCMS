@@ -64,10 +64,10 @@
             @close="$refs['userDetails'].resetFields()"
         >
             <el-form :model="userDetails" ref="userDetails" label-width="80px">
-                <el-form-item label="用户账号" prop="username" v-if="userDetails.order !== 'new'">
+                <el-form-item label="用户账号" prop="username" v-show="userDetails.order !== 'new'">
                     <el-input v-model="userDetails.username" placeholder="请填写用户账号" disabled></el-input>
                 </el-form-item>
-                <el-form-item label="用户密码" prop="password" v-if="userDetails.order !== 'new'">
+                <el-form-item label="用户密码" prop="password" v-show="userDetails.order !== 'new'">
                     <el-input
                         v-model="userDetails.password"
                         placeholder="用户密码"
@@ -87,13 +87,13 @@
                     >
                         <el-option
                             v-for="item in userOptions"
-                            :key="item['user_id']"
-                            :value="item['user_id']"
-                            :label="item['user_name']">
+                            :key="item['id']"
+                            :value="item['id']"
+                            :label="item['name']">
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="所属团队" prop="team_id" v-if="userDetails.order !== 'new'">
+                <el-form-item label="所属团队" prop="team_id" v-show="userDetails.order !== 'new'">
                     <el-select
                         v-model="userDetails.team_id"
                         placeholder="请选择团队"
@@ -101,19 +101,19 @@
                     >
                         <el-option
                             v-for="item in userDetails.teamOption"
-                            :key="item['team_id']"
-                            :value="item['team_id']"
+                            :key="item['id']"
+                            :value="item['id']"
                             :label="item['team_name']"
                         ></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="邮箱" prop="email" v-if="userDetails.order !== 'new'">
+                <el-form-item label="邮箱" prop="email" v-show="userDetails.order !== 'new'">
                     <el-input v-model="userDetails.email" placeholder="请填写邮箱" disabled></el-input>
                 </el-form-item>
                 <el-form-item label="担任职务" prop="job">
                     <el-input v-model="userDetails.job" placeholder="请填写担任职务"></el-input>
                 </el-form-item>
-                <el-form-item label="用户角色" prop="role" v-if="userDetails.order !== 'new'">
+                <el-form-item label="用户角色" prop="role" v-show="userDetails.order !== 'new'">
                     <el-select v-model="userDetails.role" placeholder="请选择用户角色" disabled>
                         <el-option value="管理员"></el-option>
                         <el-option value="贡献者"></el-option>
@@ -185,13 +185,13 @@ export default {
             _this.$axios.get('/userTeam/' + _this.userInfo['team_id'] + '/' + page).then((res) => {
                 _this.pagination.pageTotal = res.data.pageTotal;
                 for (let item of res.data.userData) {
-                    const {user_id,  user_name, user_email, job, user_status} = item;
+                    const {id,  name, email, job, status} = item;
                     _this.tableData.push({
-                        id: user_id,
-                        name: user_name,
-                        email: user_email,
+                        id: id,
+                        name: name,
+                        email: email,
                         job: job,
-                        status: user_status
+                        status: status
                     });
                 }
             });
@@ -233,17 +233,17 @@ export default {
         handleEdit(row) {
             const _this = this;
             _this.$axios.get('/getUserDetail/' + row.id).then(res => {
-                const {user_id, username, user_name, team_id, team_name, user_email, job,  role} = res.data[0];
+                const {id, username, name, team_id, team_name, email, job,  role} = res.data[0];
                 this.userDetails = {
                     order: 'edit',
                     dialogTitle: '编辑用户',
-                    id: user_id,
+                    id: id,
                     username: username,
                     password: '******',
-                    name: user_name,
+                    name: name,
                     team_id: team_id,
-                    teamOption: [{"team_id": team_id, "team_name": team_name}],
-                    email: user_email,
+                    teamOption: [{"id": team_id, "team_name": team_name}],
+                    email: email,
                     job: job,
                     role: role
                 }
@@ -262,7 +262,7 @@ export default {
                         ? {"user_ids": row}
                         : {"user_ids": [row.id]})
                     .then(res => {
-                        if (res.data.status === 1) {
+                        if (res.status === 200) {
                             _this.$message.success("删除成功");
                             _this.getTeamData(_this.pagination.pageCurrent);
                         }
@@ -280,20 +280,17 @@ export default {
                 ? ('/updateUser/' + _this.userDetails.id)
                 : '/updateUserTeam/' + _this.userInfo['team_id']
                 , _this.$refs['userDetails'].model)
-                .then(res => {
-                    if (res.data.status === 1) {
-                        _this.$message({
-                            type: 'success',
-                            message: '保存成功'
-                        });
-                        _this.dialogUserVisible = false;
-                        _this.getTeamData(_this.pagination.pageCurrent);
-                    } else {
-                        _this.$message.error(res.data.err_message);
-                    }
-                })
+            .then(res => {
+                if (res.status === 200) {
+                    _this.$message.success('保存成功');
+                    _this.dialogUserVisible = false;
+                    _this.getTeamData(_this.pagination.pageCurrent);
+                } else {
+                    _this.$message.error('该用户无法加入此团队');
+                }
+            })
         }
-    },
+    }
 };
 </script>
 

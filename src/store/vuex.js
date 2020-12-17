@@ -9,7 +9,7 @@ Vue.prototype.$store = new Vuex.Store({
         userinfo: {
             name: '西木',
             id: 1,
-            team_id: 2
+            team_id: 1
         }
     },
     mutations: {

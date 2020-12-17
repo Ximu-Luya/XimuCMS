@@ -46,6 +46,7 @@
             <el-table-column prop="name" min-width="80" label="用户姓名"></el-table-column>
             <el-table-column prop="team" min-width="100" label="所属团队"></el-table-column>
             <el-table-column prop="email" min-width="80" label="邮箱"></el-table-column>
+            <el-table-column prop="telephone" min-width="80" label="电话"></el-table-column>
             <el-table-column prop="role" min-width="60" label="角色"></el-table-column>
             <el-table-column width="80" label="用户状态" align="center">
                 <template slot-scope="scope">
@@ -141,14 +142,17 @@
                     >
                         <el-option
                             v-for="item in userDetails.teamOption"
-                            :key="item['team_id']"
-                            :value="item['team_id']"
+                            :key="item['id']"
+                            :value="item['id']"
                             :label="item['team_name']"
                         ></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="邮箱" prop="email">
                     <el-input v-model="userDetails.email" placeholder="请填写邮箱"></el-input>
+                </el-form-item>
+                <el-form-item label="电话" prop="telephone">
+                    <el-input v-model="userDetails.telephone" placeholder="请填写电话"></el-input>
                 </el-form-item>
                 <el-form-item label="担任职务" prop="job">
                     <el-input v-model="userDetails.job" placeholder="请填写担任职务"></el-input>
@@ -201,6 +205,7 @@ export default {
                 team_id: '',
                 teamOption: [],
                 email: '',
+                telephone: '',
                 job: '',
                 role: '',
                 status: ''
@@ -219,15 +224,16 @@ export default {
                 // console.log(res);
                 _this.pagination.pageTotal = res.data.pageTotal;
                 for (let item of res.data.userData) {
-                    const {user_id, username, user_name, team_name, user_email, role, user_status} = item;
+                    const {id, username, name, team_name, email, telephone, role, status} = item;
                     _this.tableData.push({
-                        id: user_id,
+                        id: id,
                         username: username,
-                        name: user_name,
+                        name: name,
                         team: team_name,
-                        email: user_email,
+                        email: email,
+                        telephone: telephone,
                         role: role,
-                        status: user_status
+                        status: status
                     });
                 }
             });
@@ -259,17 +265,18 @@ export default {
         handleEdit(row) {
             const _this = this;
             _this.$axios.get('/getUserDetail/' + row.id).then(res => {
-                const {user_id, username, user_name, team_id, team_name, user_email, job,  role} = res.data[0];
+                const {id, username, name, team_id, team_name, email, telephone, job,  role} = res.data[0];
                 this.userDetails = {
                     order: 'edit',
                     dialogTitle: '编辑用户',
-                    id: user_id,
+                    id: id,
                     username: username,
                     password: '******',
-                    name: user_name,
+                    name: name,
                     team_id: team_id,
-                    teamOption: [{"team_id": team_id, "team_name": team_name}],
-                    email: user_email,
+                    teamOption: [{"id": team_id, "team_name": team_name}],
+                    email: email,
+                    telephone: telephone,
                     job: job,
                     role: role
                 }
@@ -305,7 +312,7 @@ export default {
                         ? {"user_ids": row}
                         : {"user_ids": [row.id]})
                     .then(res => {
-                        if (res.data.status === 1) {
+                        if (res.status === 200) {
                             _this.$message.success("删除成功");
                             _this.getUserData(_this.pagination.pageCurrent);
                         }
@@ -323,7 +330,7 @@ export default {
                 ? '/createNewUser'
                 : ('/updateUser/' + _this.userDetails.id), _this.$refs['userDetails'].model)
                 .then(res => {
-                    if (res.data.status === 1) {
+                    if (res.status === 200) {
                         _this.$message({
                             type: 'success',
                             message: '保存成功'

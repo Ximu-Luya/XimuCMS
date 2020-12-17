@@ -19,6 +19,11 @@ body {
     box-sizing: border-box;
 }
 
+// elementUI 标签tag
+.el-tag {
+    margin: 0px 3px;
+}
+
 /* 去除a标签默认样式 */
 a:-webkit-any-link {
     color: inherit;
