@@ -40,7 +40,7 @@ export default {
         pathChange(){
             const _this = this;
             console.log(_this.path)
-            if(_this.path == '/public/index') {
+            if(_this.path === '/public/index') {
                 document.getElementsByClassName("header")[0].style = "position: fixed;";
                 document.getElementsByClassName("header")[0].setAttribute("id", "");
                 window.addEventListener('scroll', _this.setHeaderAttribute);
@@ -52,10 +52,11 @@ export default {
             }
         },
         setHeaderAttribute(){
-            var scrollTop = window.pageYOffset;
-            // console.log(scrollTop)
-            if(scrollTop != 0) document.getElementsByClassName("header")[0].setAttribute("id", "notTop");
-            else document.getElementsByClassName("header")[0].setAttribute("id", "");
+            let scrollTop = window.pageYOffset;
+            if (this.path === '/public/index'){
+                if(scrollTop !== 0) document.getElementsByClassName("header")[0].setAttribute("id", "notTop");
+                else document.getElementsByClassName("header")[0].setAttribute("id", "");
+            }
         }
     }
 };
@@ -70,7 +71,7 @@ export default {
     transition: 0.7s all;
     z-index: 100;
     font-size: 1.5rem;
-    height: 110px;
+    height: 90px;
 
     #logo {
         width: 520px;
@@ -79,7 +80,7 @@ export default {
         align-items: center;
         transition: inherit;
         img {
-            width: 60px;
+            width: 50px;
             transition: inherit;
         }
     }
@@ -101,12 +102,12 @@ export default {
     background-color: #535353;
     padding: 20px 15%;
     font-size: 1.25rem;
-    height: 90px;
+    height: 80px;
 
     #logo {
         font-size: 1.5rem;
         img {
-            width: 50px;
+            width: 40px;
         }
     }
 

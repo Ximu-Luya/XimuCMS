@@ -12,6 +12,27 @@ let connection = mysql.createConnection(models.mysql)
 // 连接数据库
 connection.connect()
 
+// 登录
+router.post('/login', jsonParser, (req, res) => {
+    let user = req.body
+    connection.query("select id, name, password from user where username='" + user.username + "'", function (err, result) {
+        if (err) throw err
+        if (result.length !== 0) {
+            let correct = result[0].password
+            if (correct === user.password) {
+                console.log('用户' + result.name + '登录成功')
+                res.send(JSON.stringify({"id": result[0].id}))
+            } else {
+                console.log('用户' + user.username + '密码错误')
+                res.status(401).send("用户密码错误")
+            }
+        } else {
+            console.log('用户' + user.username + '不存在')
+            res.status(401).send("用户不存在")
+        }
+    })
+})
+
 // 按页数查询用户
 router.get('/user/:page', (req, res) => {
     let sql = "select user.id, username, name, team.team_name, email, telephone, role, status " +
@@ -51,7 +72,7 @@ router.get('/getUserDetail/:id', (req, res) => {
     connection.query(sql, function (err, result) {
         if (err) throw err
         console.log('已获取id为',req.params.id, '的用户信息')
-        res.send(JSON.stringify(result))
+        res.send(JSON.stringify(result[0]))
     })
 })
 

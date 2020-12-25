@@ -1,6 +1,6 @@
 @import "reuse_style.scss";
 .page_header{
-    padding: 50px 0;
+    padding: 30px 0;
     @include flex-row-center;
 
     .title_container{
@@ -48,8 +48,43 @@
 
 .page_content{
     @include flex-row-center;
-    
-    .blog_container{
+    padding: 8px 0;
+
+    .content_container {
+        display: flex;
+        flex-direction: column;
         max-width: 1200px;
+        width: 50%;
+
+        .article_item {
+            padding: 15px 10px;
+
+            p,
+            h4 {
+                margin: 0;
+            }
+
+            .title {
+                color: #222226;
+                cursor: pointer;
+
+                &:hover {
+                    color: #5094d5;
+                }
+            }
+
+            .info {
+                color: #5f6471;
+                margin-top: 5px;
+                align-content: center !important;
+                font-size: 14px;
+            }
+        }
     }
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 20px;
 }

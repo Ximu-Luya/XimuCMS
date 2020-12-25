@@ -6,7 +6,7 @@ let api = require('./sever/api')
 
 // 解决跨域问题
 app.all('*', function (req, res, next) {
-    console.info(req.headers.origin + ' 正在请求', req.method, req.url)
+    console.info(req.headers.referer + ' 正在请求', req.method, req.url)
     next()
 })
 

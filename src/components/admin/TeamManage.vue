@@ -59,6 +59,7 @@
             :visible.sync="dialogUserVisible"
             custom-class="user-dialog"
             destroy-on-close
+            :close-on-click-modal="false"
             :title="userDetails.dialogTitle"
             width="500px"
             @close="$refs['userDetails'].resetFields()"
@@ -130,6 +131,8 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
+
 export default {
     data() {
         return {
@@ -169,11 +172,9 @@ export default {
             userOptions:[]
         };
     },
-    computed: {
-        userInfo() {
-            return this.$store.getters.getUserinfo;
-        }
-    },
+    computed: mapState('userinfo', {
+        user: 'user'
+    }),
     mounted() {
         this.getTeamData(1);
     },
@@ -182,7 +183,7 @@ export default {
         getTeamData(page) {
             const _this = this;
             _this.tableData = [];
-            _this.$axios.get('/userTeam/' + _this.userInfo['team_id'] + '/' + page).then((res) => {
+            _this.$axios.get('/userTeam/' + _this.user.team_id + '/' + page).then((res) => {
                 _this.pagination.pageTotal = res.data.pageTotal;
                 for (let item of res.data.userData) {
                     const {id,  name, email, job, status} = item;

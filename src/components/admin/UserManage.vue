@@ -112,6 +112,7 @@
             :visible.sync="dialogUserVisible"
             custom-class="user-dialog"
             destroy-on-close
+            :close-on-click-modal="false"
             :title="userDetails.dialogTitle"
             width="500px"
             @close="$refs['userDetails'].resetFields()"
@@ -265,7 +266,7 @@ export default {
         handleEdit(row) {
             const _this = this;
             _this.$axios.get('/getUserDetail/' + row.id).then(res => {
-                const {id, username, name, team_id, team_name, email, telephone, job,  role} = res.data[0];
+                const {id, username, name, team_id, team_name, email, telephone, job,  role} = res.data;
                 this.userDetails = {
                     order: 'edit',
                     dialogTitle: '编辑用户',

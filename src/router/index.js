@@ -3,7 +3,7 @@ import Router from 'vue-router';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
     // mode: 'history',
     routes: [{
             path: '/',
@@ -31,8 +31,22 @@ export default new Router({
                     }
                 },
                 {
+                    path: 'achievement/:id',
+                    component: () => import( /* webpackChunkName: "public" */ '../components/public/Achievement_detail.vue'),
+                    meta: {
+                        title: '团队成果'
+                    }
+                },
+                {
                     path: 'blog',
                     component: () => import( /* webpackChunkName: "public" */ '../components/public/Blog.vue'),
+                    meta: {
+                        title: '博客'
+                    }
+                },
+                {
+                    path: 'blog/:id',
+                    component: () => import( /* webpackChunkName: "public" */ '../components/public/Blog_detail.vue'),
                     meta: {
                         title: '博客'
                     }
@@ -43,7 +57,8 @@ export default new Router({
             path: '/admin',
             component: () => import( /* webpackChunkName: "admin" */ '../components/AdminContainer.vue'),
             redirect: '/admin/index',
-            children: [{
+            children: [
+                {
                     path: 'index',
                     component: () => import( /* webpackChunkName: "admin" */ '../components/admin/Index.vue'),
                     meta: {
@@ -81,6 +96,13 @@ export default new Router({
             ]
         },
         {
+            path: '/login',
+            component: () => import( /* webpackChunkName: "admin" */ '../components/Login'),
+            meta: {
+                title: '后台管理登录'
+            }
+        },
+        {
             path: '/404',
             component: () => import( /* webpackChunkName: "404" */ '../components/404.vue'),
             meta: {
@@ -93,3 +115,23 @@ export default new Router({
         // }
     ]
 });
+
+//使用钩子函数对路由进行权限跳转
+router.beforeEach((to, from, next) => {
+    if (to.path !== '/public/index') document.title = `${to.meta.title} | 云计算和并行计算`; //改变页面标题名称
+    else document.title = `云计算和并行计算团队`;
+    next();
+
+    const user = localStorage.getItem('user_id');
+    const noLoginPaths = ['/public/', '/login'];
+
+    if (!(user || noLoginPaths.some(p => to.path.indexOf(p) !== -1))) {  //对未登录用户设置全局路由拦截
+        next('/login');
+        Vue.prototype.$message({
+            message: '您还未登录，请先登录',
+            type: 'warning'
+        });
+    }
+});
+
+export default router

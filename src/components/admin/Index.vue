@@ -1,16 +1,20 @@
 <template>
-    <div class="admin-container">
-        
+    <div>
+        <user-info></user-info>
     </div>
 </template>
 
 <script>
+import userInfo from './components/Userinfo'
 export default {
     name: 'AdminIndex',
     data(){
         return {
             
         }
+    },
+    components: {
+        userInfo
     }
 }
 </script>

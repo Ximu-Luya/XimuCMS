@@ -22,15 +22,11 @@ module.exports = {
         // },
     },
     productionSourceMap: false, // 生产环境map文件
-    chainWebpack: config => {
-        // 添加别名（src默认为@，不用再次添加）
-        config.resolve.alias.set('@pub', resolve('public')) // 设置public别名为@pub
-    },
-    // configureWebpack: config => {
-    //     if (process.env.NODE_ENV === 'production') {
-    //         // 为生产环境修改配置...
-    //     } else {
-    //         // 为开发环境修改配置...
-    //     }
-    // },
+    configureWebpack: {
+        resolve: {
+            alias: {
+                '@': resolve('src')
+            }
+        }
+    }
 }

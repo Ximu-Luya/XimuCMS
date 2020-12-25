@@ -13,7 +13,7 @@ let connection = mysql.createConnection(models.mysql)
 // 连接数据库
 connection.connect()
 
-// 获取博客列表数据
+// 获取成果列表数据
 router.get('/getAchievementData/:page', function (req, res){
     let sql = "select achievement.id, achievement.name, type1, type2, get_time, user.name as user_name, update_time " +
         "from achievement " +
@@ -30,7 +30,7 @@ router.get('/getAchievementData/:page', function (req, res){
     })
 })
 
-// 新增博客
+// 新增成果
 router.post('/createNewAchievement', jsonParser, (req, res) => {
     let achievement = req.body
     let sql = "insert into " +
@@ -46,7 +46,7 @@ router.post('/createNewAchievement', jsonParser, (req, res) => {
     })
 })
 
-// 获取指定id博客详情
+// 获取指定id成果详情
 router.get('/getAchievementDetail/:id', (req, res) => {
     let sql = "select id, name, type1, type2, get_time, detail " +
         "from achievement " +
@@ -58,7 +58,7 @@ router.get('/getAchievementDetail/:id', (req, res) => {
     })
 })
 
-// 更新指定id博客详情
+// 更新指定id成果详情
 router.post('/updateAchievement/:id', jsonParser, (req, res) => {
     let achievement = req.body
     let datetime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
@@ -76,7 +76,7 @@ router.post('/updateAchievement/:id', jsonParser, (req, res) => {
     })
 })
 
-// 删除指定id的博客
+// 删除指定id的成果
 router.post('/deleteAchievement', jsonParser, (req, res) => {
     let achieve = req.body
     let sql = "delete from achievement where id in (" + achieve.achieve_ids.toString() + ')'

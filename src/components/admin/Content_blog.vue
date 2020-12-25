@@ -104,6 +104,7 @@
             :visible.sync="dialogBlogVisible"
             custom-class="blog-dialog"
             destroy-on-close
+            :close-on-click-modal="false"
             :title="blogDetails.dialogTitle"
             top="5vh"
             width="80%"
@@ -140,7 +141,13 @@
                     </el-col>
                     <el-col :span="24">
                         <el-form-item prop="content" label-width="0px">
-                            <mavon-editor v-model="blogDetails.content" style="width: 100%"></mavon-editor>
+                            <mavon-editor
+                                v-model="blogDetails.content"
+                                ref="mavonEditor"
+                                style="width: 100%"
+                                @imgAdd="imgAdd"
+                                @imgDel="imgDel"
+                            ></mavon-editor>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -157,6 +164,7 @@
 <script>
 let mavonEditor = require('mavon-editor')
 import 'mavon-editor/dist/css/index.css'
+import {mapState} from 'vuex'
 
 export default {
     name: "Content_blog",
@@ -195,11 +203,9 @@ export default {
             },
         };
     },
-    computed: {
-        userInfo() {
-            return this.$store.getters.getUserinfo;
-        },
-    },
+    computed: mapState('userinfo', {
+        user: 'user'
+    }),
     components: {
         'mavon-editor': mavonEditor.mavonEditor
     },
@@ -308,8 +314,8 @@ export default {
             _this.dialogBlogVisible = true;
             _this.blogDetails.dialogTitle = '新增博客';
             _this.blogDetails.order = 'new';
-            _this.blogDetails.author = _this.userInfo.name;
-            _this.blogDetails.author_id = _this.userInfo.id;
+            _this.blogDetails.author = _this.user.name;
+            _this.blogDetails.author_id = _this.user.id;
         },
         // 处理博客编辑保存
         handleSave() {
@@ -344,6 +350,20 @@ export default {
                     }
                 })
         },
+        // 处理图片上传
+        imgAdd (pos, file) {
+            let _this = this;
+            let formdata = new FormData();
+            formdata.append('imgFile', file)
+            // console.log(formdata.getAll('imgFile'))
+            _this.$axios.post('/uploadImg', formdata).then(res => {
+                _this.$refs.mavonEditor.$img2Url(pos, res.data.url)
+            })
+        },
+        // TODO
+        imgDel (a, b, c, d){
+            console.log(a,b,c,d)
+        }
     },
 };
 </script>

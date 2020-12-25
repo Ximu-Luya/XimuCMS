@@ -10,40 +10,37 @@
             </div>
         </section>
         <section class="page_content">
-            <div class="blog_container">
+            <div class="content_container">
                 <div
-                    class="blog_item"
+                    class="article_item"
                     v-for="item in blogs"
-                    :key="item.blog_title"
+                    :key="item.id"
                 >
-                    <router-link to="">
-                        <h4 class="blog_title">
-                            <el-tag type="danger">{{ item.blog_type }}</el-tag>
-                            {{ item.blog_title }}
+                    <router-link :to="item.id.toString()" append>
+                        <h4 class="title">
+                            <el-tag type="danger">{{ item.tag_list }}</el-tag>
+                            {{ item.title }}
                         </h4>
                     </router-link>
-                    <p class="blog_content">{{ item.blog_summary }}</p>
-                    <div class="blog_info">
+                    <div class="info">
                         <p>
-                            <span class="date">{{ item.date }}</span>
-                            <span class="read-num">
-                                <i class="el-icon-view"></i>
-                                {{ item.view_num }}
-                            </span>
+                            <span class="date">{{ item.update_time }}</span>
                         </p>
                     </div>
                 </div>
             </div>
         </section>
-
+        
         <section class="pagination">
+            <!-- 分页组件 -->
             <el-pagination
-                :hide-on-single-page="true"
+                :current-page="pagination.pageCurrent"
                 :page-size="6"
-                :total="blogs.length"
-                layout="prev, pager, next"
-            >
-            </el-pagination>
+                :total="pagination.pageTotal"
+                background
+                layout="total, prev, pager, next"
+                @current-change="handlePageChange"
+            ></el-pagination>
         </section>
     </div>
 </template>
@@ -54,73 +51,32 @@ export default {
     data() {
         return {
             blogs: [],
+            // 页数
+            pagination: {
+                pageCurrent: 1,
+                pageTotal: 0,
+            },
         };
     },
     mounted() {
-        this.getBlogData();
+        this.getBlogData(1);
     },
     methods: {
-        getBlogData() {
+        getBlogData(page) {
             const _this = this;
-            _this.$axios.get("blogs.json").then((res) => {
-                console.log(res.data);
-                _this.blogs = res.data.blogs;
+            _this.$axios.get("/getBlogData/" + page).then(res => {
+                _this.pagination.pageTotal = res.data.pageTotal;
+                _this.blogs = res.data.blogData;
             });
+        },
+        // 分页导航-处理页码变更
+        handlePageChange(val) {
+            this.getBlogData(val);
         },
     },
 };
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/css/childPages.scss";
-#blog_index {
-    .blog_container {
-        display: flex;
-        flex-direction: column;
-        max-width: 1200px;
-        width: 50%;
-
-        .blog_item {
-            padding: 15px 10px;
-            p,
-            h4 {
-                margin: 0;
-            }
-            .blog_title {
-                color: #222226;
-                cursor: pointer;
-                &:hover {
-                    color: #5094d5;
-                }
-            }
-            .blog_content {
-                color: #999aaa;
-                line-height: 22px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
-                margin-top: 5px;
-            }
-            .blog_info {
-                color: #5f6471;
-                margin-top: 5px;
-                align-content: center !important;
-                font-size: 14px;
-                .read-num {
-                    margin-left: 10px;
-                }
-            }
-        }
-    }
-    .pagination{
-        display: flex;
-        justify-content: center;
-        padding-bottom: 20px;
-        ::v-deep *{
-            background-color: rgb(0, 0, 0, 0) !important;
-        }
-    }
-}
+@import "~@/assets/css/childPages.scss";
 </style>

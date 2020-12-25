@@ -57,6 +57,7 @@
             :visible.sync="dialogAchievementVisible"
             custom-class="blog-dialog"
             destroy-on-close
+            :close-on-click-modal="false"
             :title="achievementDetails.dialogTitle"
             top="5vh"
             width="80%"
@@ -107,7 +108,13 @@
                     </el-col>
                     <el-col :span="24">
                         <el-form-item prop="content" label-width="0px">
-                            <mavon-editor v-model="achievementDetails.detail" style="width: 100%"></mavon-editor>
+                            <mavon-editor
+                                v-model="achievementDetails.detail"
+                                ref="mavonEditor"
+                                style="width: 100%"
+                                @imgAdd="imgAdd"
+                                @imgDel="imgDel"
+                            ></mavon-editor>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -124,6 +131,7 @@
 <script>
 let mavonEditor = require('mavon-editor')
 import 'mavon-editor/dist/css/index.css'
+import {mapState} from 'vuex'
 
 export default {
     data() {
@@ -150,7 +158,7 @@ export default {
                 editor_id: '',
                 id: '',
                 name: '',
-                detail: '',
+                detail: '无',
                 type1: '',
                 type2: '',
                 get_time: '',
@@ -166,6 +174,9 @@ export default {
     components: {
         'mavon-editor': mavonEditor.mavonEditor
     },
+    computed: mapState('userinfo', {
+        current_id: 'id'
+    }),
     mounted() {
         this.getAchievementData(1);
     },
@@ -223,7 +234,7 @@ export default {
                         type2: type2,
                         get_time: get_time,
                         detail: detail,
-                        editor_id: _this.$store.getters.getUserinfo.editor_id
+                        editor_id: _this.current_id
                     }
                 })
             })
@@ -281,6 +292,20 @@ export default {
                     return false;
                 }
             });
+        },
+        // 处理图片上传
+        imgAdd (pos, file) {
+            let _this = this;
+            let formdata = new FormData();
+            formdata.append('imgFile', file)
+            // console.log(formdata.getAll('imgFile'))
+            _this.$axios.post('/uploadImg', formdata).then(res => {
+                _this.$refs.mavonEditor.$img2Url(pos, res.data.url)
+            })
+        },
+        // TODO
+        imgDel (a, b, c, d){
+            console.log(a,b,c,d)
         }
     }
 };

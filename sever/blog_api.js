@@ -4,6 +4,10 @@ let models = require('./db')
 let mysql = require('mysql')
 let moment = require('moment')
 
+// 图片上传
+let upload = require('./upload')
+router.use('/', upload)
+
 // 引入请求body解析中间件
 let bodyParser = require('body-parser')
 let jsonParser = bodyParser.json()
@@ -47,7 +51,7 @@ router.post('/createNewBlog', jsonParser, (req, res) => {
 
 // 获取指定id博客详情
 router.get('/getBlogDetail/:id', (req, res) => {
-    let sql = "select blog.id, title, tag_list, section, user.name, blog_content " +
+    let sql = "select blog.id, title, tag_list, section, user.name, blog_content, update_time " +
         "from blog " +
         "left join user on blog.user_id = user.id " +
         "where blog.id = " + req.params.id

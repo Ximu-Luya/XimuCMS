@@ -2,7 +2,7 @@
     <div class="header" :class="{'header-collapse':collapse}">
         <div class="header-left">
             <!-- 折叠按钮 -->
-            <div class="collapse-btn" @click="collapseChage">
+            <div class="collapse-btn" @click="collapseChange">
                 <i v-if="!collapse" class="el-icon-s-fold"></i>
                 <i v-else class="el-icon-s-unfold"></i>
             </div>
@@ -36,7 +36,7 @@
                 <!-- 用户名下拉菜单 -->
                 <el-dropdown class="user-name" trigger="click" @command="handleCommand">
                     <span class="el-dropdown-link">
-                        {{username}}
+                        {{user.name}}
                         <i class="el-icon-caret-bottom"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
@@ -51,7 +51,7 @@
                     </el-dropdown-menu>
                 </el-dropdown>
                 <!-- 版权信息 -->
-                <div id="btn-copyright" @click="copyrightdrawer =true">
+                <div id="btn-copyright" @click="copyrightDrawer = true">
                     <el-tooltip
                         class="item"
                         effect="dark"
@@ -63,7 +63,7 @@
                     </el-tooltip>
                 </div>
                 <el-drawer
-                    :visible.sync="copyrightdrawer"
+                    :visible.sync="copyrightDrawer"
                     :with-header="false"
                     append-to-body
                     size="300px"
@@ -72,7 +72,7 @@
                     <div class="title">版权信息</div>
                     <div class="body">
                         <p class="version">当前版本: v{{version}}</p>
-                        <p class="frame">基于框架: Vue、ElementUI</p>
+                        <p class="frame">基于框架: Vue、ElementUI、Node.js、Express</p>
                         <p>航空港校区 | 四川省成都市西南航空港经济开发区学府路一段24号</p>
                         <p>邮编：610225 | 电话：028-85966502</p>
                         <p class="copyright-info">© 2020 成都信息工程大学 版权所有</p>
@@ -83,38 +83,37 @@
     </div>
 </template>
 <script>
+import {mapState, mapMutations} from "vuex";
+
 export default {
     data() {
         return {
             collapse: false,
             fullscreen: false,
             name: 'Ximu',
-            copyrightdrawer: false,
+            copyrightDrawer: false,
             version: '0.1.1',
             codeRequire: Boolean,
             screenWidth: Number
         };
     },
-    computed: {
-        username() {
-            let username = localStorage.getItem('ms_username');
-            return username ? username : this.name;
-        }
-    },
+    computed: mapState('userinfo', {
+        user: 'user'
+    }),
     mounted() {
         // 获取开启时浏览器窗口宽度
         this.screenWidth = document.body.clientWidth;
         if (this.screenWidth < 1100) {
-            if (!this.collapse) this.collapseChage();
+            if (!this.collapse) this.collapseChange();
         }
         // 监听浏览器窗口宽度并决定左侧菜单是否收缩
         window.onresize = () => {
             return (() => {
                 this.screenWidth = document.body.clientWidth;
                 if (document.body.clientWidth < 1100) {
-                    if (!this.collapse) this.collapseChage();
+                    if (!this.collapse) this.collapseChange();
                 } else {
-                    if (this.collapse) this.collapseChage();
+                    if (this.collapse) this.collapseChange();
                 }
             })();
         };
@@ -123,16 +122,18 @@ export default {
         // 用户名下拉菜单选择事件
         handleCommand(command) {
             if (command === 'logout') {
-                localStorage.removeItem('ms_username');
+                localStorage.removeItem('user_id');
+                this.initUserinfo()
                 this.$router.push('/login');
             }
 
             if (command === 'person') {
-                this.$router.push('/person');
+                this.$router.push('/admin/index');
             }
         },
+        ...mapMutations('userinfo', ['initUserinfo']),
         // 侧边栏折叠
-        collapseChage() {
+        collapseChange() {
             this.collapse = !this.collapse;
             this.$store.commit('collapseChange', this.collapse);
         },
