@@ -11,12 +11,12 @@ module.exports = {
         port: 8086,
         https: false,
         // proxy: {
-        //     "/api": {
+        //     "/router": {
         //         target: "http://localhost:8085/api/", //目标主机
         //         ws: true, //代理的WebSockets
         //         changeOrigin: true, //需要虚拟主机站点
         //         pathRewrite: {
-        //             "^/api": ""
+        //             "^/router": ""
         //         }
         //     }
         // },

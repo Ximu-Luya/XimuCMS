@@ -7,7 +7,7 @@ Vue.prototype.$axios = process.env.NODE_ENV === 'development' ? axios.create({
     timeout: 5000
 }) : axios.create({
     // 此处填入生产环境请求baseURL
-    // baseURL: 'https://www.easy-mock.com/mock/5fb0accea12a7e2dea86f430/grapes',
+    baseURL: 'http://127.0.0.1:8067',
     timeout: 5000
 });
 

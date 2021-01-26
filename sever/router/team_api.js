@@ -1,6 +1,6 @@
 let express = require('express')
 let router = express.Router()
-let models = require('./db')
+let models = require('../db')
 let mysql = require('mysql')
 
 // 引入请求body解析中间件

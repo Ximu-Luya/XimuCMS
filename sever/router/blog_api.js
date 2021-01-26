@@ -1,11 +1,11 @@
 let express = require('express')
 let router = express.Router()
-let models = require('./db')
+let models = require('../db')
 let mysql = require('mysql')
 let moment = require('moment')
 
 // 图片上传
-let upload = require('./upload')
+let upload = require('../untils/upload')
 router.use('/', upload)
 
 // 引入请求body解析中间件
