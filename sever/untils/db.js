@@ -17,7 +17,7 @@ connection.connect()
 // 封装数据库操作方法
 /**
  * @param {String} sql 数据库操作语句
- * @param {Array, String} [data] 数据
+ * @param {any} [data] 数据
  * @returns {Promise}
  */
 exports = module.exports.query = function (sql, data) {
