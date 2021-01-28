@@ -21,14 +21,9 @@ app.use(expressJwt({
     algorithms: ['HS256']
 }).unless({
     path: [
-        '/',
-        '/favicon.ico',
-        {url: /\/css.*/, methods: ['GET']},
-        {url: /\/js.*/, methods: ['GET']},
-        {url: /\/img.*/, methods: ['GET']},
-        {url: /\/font.*/, methods: ['GET']},
-        '/user/login',
-        {url: /\/user.*/, methods: ['GET', 'POST', 'PUT', 'DELETE']},
+        {url: /\/.*/, methods: ['GET']},
+        '/api/user/login',
+        // {url: /\/api.*/, methods: ['POST', 'PUT', 'DELETE']},
     ] //除了这个地址，其他的URL都需要验证
 }))
 

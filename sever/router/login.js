@@ -8,6 +8,8 @@ let jsonParser = bodyParser.json()
 
 // 引入DAO层
 let userDAO = require('../DAO/userDAO')
+// 引入Response层
+let response = require('../untils/response')
 
 // 登录
 router.post('/login', jsonParser, (req, res) => {
@@ -18,16 +20,16 @@ router.post('/login', jsonParser, (req, res) => {
             let correct = result[0].password
             if (correct === user.password) {
                 console.log('用户', result[0].name, '登录成功')
-                setToken(result[0].name, result[0].uid).then((data) => {
-                    return res.json({token: data})
+                setToken(result[0].name, result[0].uid, result[0].role).then(data => {
+                    response.success0(res,'登录成功', data)
                 })
             } else {
                 console.log('用户', user.username, '密码错误')
-                res.status(401).send("用户密码错误")
+                response.success2(res, '密码错误')
             }
         } else {
             console.log('用户', user.username, '不存在')
-            res.status(401).send("用户不存在")
+            response.success4(res, '用户名不存在')
         }
     })
 })

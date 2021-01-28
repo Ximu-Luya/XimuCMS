@@ -1,8 +1,8 @@
-let {query} = require('../untils/db')
+const {query} = require('../untils/db')
 
 // 登录检查查询密码
 exports = module.exports.LoginCheck = function (username) {
-    const sql = "select uid, name, password from user where username= ?"
+    const sql = "select uid, name, password, role from user where username= ?"
     return query(sql, username)
 }
 
@@ -56,7 +56,7 @@ exports = module.exports.update = function (userinfo) {
 // 更新用户状态
 exports = module.exports.updateStatus = function (uid, status) {
     const sql = "update user set status=? where uid=?"
-    return query(sql, [uid, status])
+    return query(sql, [status, uid])
 }
 
 // 删除数据
