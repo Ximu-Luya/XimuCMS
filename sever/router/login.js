@@ -20,7 +20,7 @@ router.post('/login', jsonParser, (req, res) => {
             let correct = result[0].password
             if (correct === user.password) {
                 console.log('用户', result[0].name, '登录成功')
-                setToken(result[0].name, result[0].uid, result[0].role).then(data => {
+                setToken(result[0]).then(data => {
                     response.success0(res,'登录成功', data)
                 })
             } else {

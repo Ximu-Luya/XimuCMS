@@ -2,13 +2,13 @@ const {query} = require('../untils/db')
 
 // 登录检查查询密码
 exports = module.exports.LoginCheck = function (username) {
-    const sql = "select uid, name, password, role from user where username= ?"
-    return query(sql, username)
+    const sql = `select uid, name, password, role, team_id from user where username= '${username}'`
+    return query(sql)
 }
 
 // 查询总数
 exports = module.exports.selectTotal = function (){
-    const sql = 'select count(*) as pageTotal from user'
+    const sql = `select count(*) as pageTotal from user`
     return query(sql)
 }
 
