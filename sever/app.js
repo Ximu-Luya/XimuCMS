@@ -2,8 +2,8 @@ let express = require('express')
 let app = express()
 
 // 解决跨域
-// const cors = require('cors')
-// app.use(cors())
+const cors = require('cors')
+app.use(cors())
 
 // 控制台输出请求信息
 app.all(/\/api.*/, function (req, res, next) {

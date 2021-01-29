@@ -1,3 +1,4 @@
+<!--suppress JSDeprecatedSymbols -->
 <template>
     <div id="blog_index">
         <section class="page_header">
@@ -17,30 +18,29 @@
                     :key="item.id"
                 >
                     <router-link :to="item.id.toString()" append>
-                        <h4 class="title">
+                        <div class="box-top">
+                            <h4 class="title">{{ item.title }}</h4>
+                        </div>
+                        <div class="box-content">{{ item.summary }}</div>
+                        <div class="box-bottom">
                             <el-tag type="danger">{{ item.tag_list }}</el-tag>
-                            {{ item.title }}
-                        </h4>
+                            <span class="release_time">发布于 {{ item.release_time }}</span>
+                        </div>
                     </router-link>
-                    <div class="info">
-                        <p>
-                            <span class="date">{{ item.update_time }}</span>
-                        </p>
-                    </div>
                 </div>
+    
+                <section class="pagination">
+                    <!-- 分页组件 -->
+                    <el-pagination
+                        :current-page="pagination.pageCurrent"
+                        :page-size="6"
+                        :total="pagination.pageTotal"
+                        background
+                        layout="total, prev, pager, next"
+                        @current-change="handlePageChange"
+                    ></el-pagination>
+                </section>
             </div>
-        </section>
-        
-        <section class="pagination">
-            <!-- 分页组件 -->
-            <el-pagination
-                :current-page="pagination.pageCurrent"
-                :page-size="6"
-                :total="pagination.pageTotal"
-                background
-                layout="total, prev, pager, next"
-                @current-change="handlePageChange"
-            ></el-pagination>
         </section>
     </div>
 </template>
@@ -64,9 +64,9 @@ export default {
     methods: {
         getBlogData(page) {
             const _this = this;
-            _this.$axios.get("/getBlogData/" + page).then(res => {
-                _this.pagination.pageTotal = res.data.pageTotal;
-                _this.blogs = res.data.blogData;
+            _this.$axios.get(`/blog?page=${page}`).then(({data}) => {
+                _this.pagination.pageTotal = data.pageTotal;
+                _this.blogs = data.blogs;
             });
         },
         // 分页导航-处理页码变更

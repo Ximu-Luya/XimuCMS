@@ -1,7 +1,5 @@
 let express = require('express')
 let router = express.Router()
-let models = require('../db')
-let mysql = require('mysql')
 let moment = require('moment')
 
 // 引入请求body解析中间件
@@ -12,26 +10,21 @@ let jsonParser = bodyParser.json()
 let achievementDAO = require('../DAO/achievementDAO')
 // 引入Response层
 let response = require('../untils/response')
-// 创建mysql数据库连接
-let connection = mysql.createConnection(models.mysql)
-
-// 连接数据库
-connection.connect()
 
 // 获取成果列表数据
 router.get('/', function (req, res){
-    const {page, id} = req.query
+    const {page, id, type1} = req.query
 
     if(page){
         // 查询总数
-        console.log('正在获取第', page, '页的成果...')
-        achievementDAO.selectTotal().then(result => {
+        console.log(`正在获取第 ${page} 页的${type1?type1:''}成果...`)
+        achievementDAO.selectTotal(type1).then(result => {
             let pageTotal = result[0].pageTotal
             // 查询指定页数
-            achievementDAO.selectByPage(page).then(result => {
+            achievementDAO.selectByPage(page, type1).then(result => {
                 return response.success0(res,
-                    '查询成功，已获取第' + page + '页的成果',
-                    {pageTotal: pageTotal, userData: result})
+                    `查询成功，已获取第 ${page} 页的 ${type1?type1:``} 成果`,
+                    {pageTotal: pageTotal, achievements: result})
             })
         })
     }

@@ -6,6 +6,11 @@ let mysql = require('mysql')
 // 引入请求body解析中间件
 let bodyParser = require('body-parser')
 let jsonParser = bodyParser.json()
+
+// 引入DAO层
+let teamDAO = require('../DAO/teamDAO')
+// 引入Response层
+let response = require('../untils/response')
 // 创建mysql数据库连接
 let connection = mysql.createConnection(models.mysql)
 
@@ -13,7 +18,7 @@ let connection = mysql.createConnection(models.mysql)
 connection.connect()
 
 // 按页数查询团队成员用户
-router.get('/userTeam/:team_id/:page', (req, res) => {
+router.get('/', (req, res) => {
     let sql = "select user.id, name, email, job, status " +
         "from user " +
         "left join team on user.team_id = team.id " +
@@ -31,7 +36,7 @@ router.get('/userTeam/:team_id/:page', (req, res) => {
 })
 
 // 按id将用户移出团队
-router.post('/deleteTeamMember', jsonParser, (req, res) => {
+router.post('/', jsonParser, (req, res) => {
     let team = req.body
     let sql = "update user set team_id=0, job='无' where id in (" + team.user_ids.toString() + ")"
     connection.query(sql, function (err){

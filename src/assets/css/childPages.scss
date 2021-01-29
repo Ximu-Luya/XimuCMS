@@ -57,7 +57,12 @@
         width: 50%;
 
         .article_item {
-            padding: 15px 10px;
+            //padding: 15px 10px;
+            width: 100%;
+            cursor: pointer;
+            background: #fff;
+            padding: 16px;
+            margin-bottom: 16px;
 
             p,
             h4 {
@@ -67,24 +72,82 @@
             .title {
                 color: #222226;
                 cursor: pointer;
+                font-size: 18px;
+                font-weight: 500;
+                line-height: 24px;
+                overflow: hidden;
+                white-space: normal;
+                word-break: break-word;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 1;
 
                 &:hover {
                     color: #5094d5;
                 }
             }
 
-            .info {
-                color: #5f6471;
-                margin-top: 5px;
-                align-content: center !important;
+            .box-content {
+                color: #555666;
+                margin-top: 8px;
+                line-height: 24px;
                 font-size: 14px;
+                overflow: hidden;
+                white-space: normal;
+                word-break: break-word;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+            }
+
+            .box-bottom {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 16px;
+                .release_time {
+                    color: #555666;
+                }
+                .left {
+                    display: flex;
+                    line-height: 21px;
+                    .content-num {
+                        width: 100px;
+                    }
+                    i{
+                        margin-right: 3px;
+                    }
+                }
+            }
+
+            .box-content-list{
+                margin-top: 8px;
+                padding: 24px 16px;
+                width: 100%;
+                background: #f8f8f8;
+                .pagination{
+                    display: flex;
+                    justify-content: center;
+                    margin-bottom: -15px;
+                }
+                .list-item{
+                    display: flex;
+                    -webkit-box-align: center;
+                    align-items: center;
+                    margin-bottom: 24px;
+                    .tag{
+                        margin-right: 10px;
+                    }
+                    &:last-child{
+                        margin-bottom: 0;
+                    }
+                }
             }
         }
-    }
-}
 
-.pagination {
-    display: flex;
-    justify-content: center;
-    padding-bottom: 20px;
+        >.pagination {
+            display: flex;
+            justify-content: center;
+            padding: 15px;
+        }
+    }
 }

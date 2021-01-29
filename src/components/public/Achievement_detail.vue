@@ -66,17 +66,23 @@ export default {
     },
     computed: {
         path(){
-            return this.$route.path;
+            return this.$route.path.split('/').slice(-1);
+        }
+    },
+    watch: {
+        // 若地址栏路径id发生变化，重新获取博客内容
+        path: function (){
+            this.getData(this.path);
         }
     },
     mounted() {
-        this.getAchievementData(this.path.split('/').slice(-1));
+        this.getData(this.path);
     },
     methods: {
-        getAchievementData(id) {
+        getData(id) {
             const _this = this;
-            _this.$axios.get("/getAchievementDetail/" + id).then(res => {
-                _this.achievement = res.data[0];
+            _this.$axios.get(`/achievement?id=${id}`).then(res => {
+                _this.achievement = res.data;
             });
         },
     },

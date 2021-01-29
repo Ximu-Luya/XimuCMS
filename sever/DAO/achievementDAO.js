@@ -1,17 +1,19 @@
 const {query} = require('../untils/db');
 
 // 查询总数
-exports = module.exports.selectTotal = function (){
-    const sql = 'select count(*) as pageTotal from achievement'
+exports = module.exports.selectTotal = function (type1){
+    const sql = `select count(*) as pageTotal from achievement ${type1 ? `where type1='${type1}'` : ''}`
     return query(sql)
 }
 
 // 按页查询
-exports = module.exports.selectByPage = function (page) {
+exports = module.exports.selectByPage = function (page, type1) {
     const sql = `select achievement.id, achievement.name, type1, type2,
-        team.name, detail, get_time, update_time
+        team.name as team_name, detail, get_time, update_time
         from achievement 
-        left join team on achievement.team_id = team.id limit ${(page - 1) * 10}, 10`
+        left join team on achievement.team_id = team.id 
+        ${type1 ? `where type1='${type1}'` : ''}
+        limit ${(page - 1) * 10}, 10`
     return query(sql)
 }
 

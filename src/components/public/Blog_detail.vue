@@ -10,10 +10,10 @@
                         <div class="info-box">
                             <div class="info-bar">
                                 <div class="bar-content">
-                                    <span id="author">{{ blog.name }}</span>
+                                    <span id="author">{{ blog.author_name }}</span>
                                     <span class="label">
                                         <i class="el-icon-time"></i>
-                                        {{ blog.update_time }}
+                                        {{ blog.release_time }}
                                     </span>
                                 </div>
                             </div>
@@ -29,7 +29,7 @@
                     </div>
                     <article class="content-box">
                         <mavon-editor
-                            v-model="blog.blog_content"
+                            v-model="blog.content"
                             ref="mavonEditor"
                             style="width: 100%"
                             :toolbarsFlag="false"
@@ -54,11 +54,11 @@ export default {
             blog: {
                 id: '',
                 title: '',
-                name: '',
+                author_name: '',
                 section: '',
                 tag_list: '',
-                blog_content: '',
-                update_time: ''
+                content: '',
+                release_time: ''
             },
         };
     },
@@ -67,17 +67,23 @@ export default {
     },
     computed: {
         path(){
-            return this.$route.path;
+            return this.$route.path.split('/').slice(-1);
+        }
+    },
+    watch: {
+        // 若地址栏路径id发生变化，重新获取博客内容
+        path: function (){
+            this.getData(this.path);
         }
     },
     mounted() {
-        this.getBlogData(this.path.split('/').slice(-1));
+        this.getData(this.path);
     },
     methods: {
-        getBlogData(id) {
+        getData(id) {
             const _this = this;
-            _this.$axios.get("/getBlogDetail/" + id).then(res => {
-                _this.blog = res.data[0];
+            _this.$axios.get(`/blog?id=${id}`).then(res => {
+                _this.blog = res.data;
             });
         },
     },

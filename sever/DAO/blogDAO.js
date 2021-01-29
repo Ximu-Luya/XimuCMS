@@ -13,7 +13,7 @@ exports = module.exports.selectByPage = function (page) {
             case when length(content)>200 
             then concat(substring(content,1,200), '...') 
             else content end
-        ) as content, 
+        ) as summary, 
         user.name as author_name, author as author_id, release_time, update_time 
         from blog 
         left join user on blog.author = user.uid limit ?, 10`

@@ -28,7 +28,7 @@ router.get('/', function (req, res){
             blogDAO.selectByPage(page).then(result => {
                 return response.success0(res,
                     '查询成功，已获取第' + page + '页的博客',
-                    {pageTotal: pageTotal, userData: result})
+                    {pageTotal: pageTotal, blogs: result})
             })
         })
     }
