@@ -23,7 +23,7 @@ exports = module.exports.selectByPage = function (page) {
 
 // 按ID查询
 exports = module.exports.selectById = function (uid) {
-    const sql = "select user.uid, username, name, email, telephone, team.id as team_id, team.team_name, job, role " +
+    const sql = "select user.uid, username, user.name, email, telephone, team.id as team_id, team.name as team_name, job, role " +
         "from user " +
         "left join team on user.team_id = team.id " +
         "where user.uid = ?"

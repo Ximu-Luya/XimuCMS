@@ -120,18 +120,33 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
     if (to.path !== '/public/index') document.title = `${to.meta.title} | 云计算和并行计算`; //改变页面标题名称
     else document.title = `云计算和并行计算团队`;
-    next();
 
-    const user = localStorage.getItem('user_id');
-    const noLoginPaths = ['/public/', '/login'];
+    const noLoginPaths = ['public', 'login'];
+    if (!noLoginPaths.some(p => {return to.path.indexOf(p) !== -1})) {
+        const token = localStorage.getItem('token');
 
-    if (!(user || noLoginPaths.some(p => to.path.indexOf(p) !== -1))) {  //对未登录用户设置全局路由拦截
-        next('/login');
-        Vue.prototype.$message({
-            message: '您还未登录，请先登录',
-            type: 'warning'
-        });
+        if (token) {
+            if (sessionStorage.getItem('verify') !== 'yes') {
+                Vue.prototype.$axios.post('/user/verify').then(() => {
+                    sessionStorage.setItem('verify', 'yes')
+                    next()
+                })
+                .catch(err => {
+                    console.log(err)
+                    next('/login');
+                })
+            }
+            else next()
+        }
+        else {
+            next('/login');
+            Vue.prototype.$message({
+                message: '您还未登录，请先登录',
+                type: 'warning'
+            });
+        }
     }
+    next();
 });
 
 export default router

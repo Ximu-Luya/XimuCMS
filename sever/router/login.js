@@ -20,8 +20,8 @@ router.post('/login', jsonParser, (req, res) => {
             let correct = result[0].password
             if (correct === user.password) {
                 console.log('用户', result[0].name, '登录成功')
-                setToken(result[0]).then(data => {
-                    response.success0(res,'登录成功', data)
+                setToken(result[0]).then(token => {
+                    response.success0(res,'登录成功', {uid: result[0].uid, token: token})
                 })
             } else {
                 console.log('用户', user.username, '密码错误')
@@ -32,6 +32,11 @@ router.post('/login', jsonParser, (req, res) => {
             response.success4(res, '用户名不存在')
         }
     })
+})
+
+// token验证
+router.post('/verify', (req, res) => {
+    response.success1(res, `${req.user.name} 欢迎回来`)
 })
 
 module.exports = router

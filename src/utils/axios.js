@@ -16,6 +16,10 @@ Vue.prototype.$axios.defaults.headers.post['Content-Type'] = false
 // 定义axios请求拦截器
 Vue.prototype.$axios.interceptors.request.use(config => {
     // 在发送数据之前做些什么
+    if(config.method !== 'get'){
+        // 在headers中新增authorization属性来携带token
+        config.headers.authorization = `Bearer ${localStorage.getItem('token')}`
+    }
     console.log('请求url为：' + config.url, config)
     return config;
 }, err => {

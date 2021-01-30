@@ -30,7 +30,7 @@ router.get('/', (req, res) => {
         })
     }
     else if (uid) {
-        console.log('正在获取id为', uid, '的用户...')
+        console.log('正在获取uid为', uid, '的用户...')
         // 查询指定ID
         userDAO.selectById(uid).then(result => {
             if (result.length===0)
@@ -108,7 +108,7 @@ router.put('/', jsonParser, (req, res) => {
     }
     // status为undefined即更新用户其他信息
     else {
-        console.log('正在更新id为', uid, '的用户信息')
+        console.log('正在更新uid为', uid, '的用户信息')
         userDAO.update(userinfo).then(result => {
             if (result) return response.success1(res, '更新用户信息成功')
             else return  response.success4(res, '更新用户信息失败，用户不存在')
@@ -128,7 +128,7 @@ router.delete('/', (req, res) => {
     // 检查是否删除自己
     if(uids.indexOf(currentUser._uid) !== -1) return res.status(403).send('您不能删除包含您自己的用户')
 
-    console.log('正在删除id为', uids, '的用户')
+    console.log('正在删除uid为', uids, '的用户')
     userDAO.delete(uids).then(result => {
         if (result) return response.success1(res, '删除成功')
         return response.success4(res, '删除失败，未找到该用户')

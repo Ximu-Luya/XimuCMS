@@ -1,6 +1,6 @@
 const state = {
     user: {
-        id: '',
+        uid: '',
         username: '',
         name: '',
         email: '',
@@ -15,10 +15,10 @@ const state = {
 const mutations = {
     updateUserinfo(state, userinfo) {
         const {username, name, email, telephone, team_id, team_name, job, role} = userinfo;
-        state.user = {id: state.user.id, username, name, email, telephone, team_id, team_name, job, role}
+        state.user = {uid: state.user.uid, username, name, email, telephone, team_id, team_name, job, role}
     },
-    updateUserId(state, id) {
-        state.user.id = id
+    updateUserId(state, uid) {
+        state.user.uid = uid
     },
     initUserinfo(state){
         for(let attr in state.user) {
@@ -35,8 +35,8 @@ const actions = {
     setUserInfo({ commit }, userinfo){
         commit('updateUserinfo', userinfo)
     },
-    setUserId({ commit }, id) {
-        commit('updateUserId', id)
+    setUserId({ commit }, uid) {
+        commit('updateUserId', uid)
     }
 }
 

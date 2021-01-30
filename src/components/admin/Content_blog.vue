@@ -62,11 +62,11 @@
                     <el-tag v-if="scope.row.section === '外部公示'" :type="'warning'">外部公示</el-tag>
                 </template>
             </el-table-column>
-            <el-table-column label="作者" min-width="80" prop="author"></el-table-column>
+            <el-table-column label="作者" min-width="80" prop="author_name"></el-table-column>
             <el-table-column
                 label="最后编辑时间"
                 min-width="100"
-                prop="updatetime"
+                prop="update_time"
             ></el-table-column>
             <el-table-column align="center" label="操作" width="180">
                 <template slot-scope="scope">
@@ -135,8 +135,8 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="博客作者" prop="author_id">
-                            <el-input v-model="blogDetails.author" disabled></el-input>
+                        <el-form-item label="博客作者">
+                            <el-input v-model="blogDetails.author_name" disabled></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
@@ -197,7 +197,7 @@ export default {
                 title: '',
                 tag_list: [],
                 section: '',
-                author: '',
+                author_name: '',
                 author_id: '',
                 content: ''
             },
@@ -216,27 +216,20 @@ export default {
         // 获取表格内容
         getBlogData(page) {
             const _this = this;
+            // 首先清空原表格
             _this.tableData = [];
-            _this.$axios.get("/getBlogData/" + page).then((res) => {
+            _this.$axios.get(`/blog?page=${page}`).then((res) => {
+                // 对总条目数赋值
                 _this.pagination.pageTotal = res.data.pageTotal;
-                for (let item of res.data.blogData) {
-                    const {id, title, tag_list, section, name, update_time} = item;
-                    _this.tableData.push({
-                        id: id,
-                        title: title,
-                        tag_list: tag_list,
-                        section: section,
-                        author: name,
-                        updatetime: update_time,
-                    });
-                }
+                // 表格数据赋值
+                _this.tableData = res.data.blogs
             });
         },
         // 筛选-作者选择框远程搜索方法
         filterAuthor(author) {
             const _this = this;
             _this.authorOptions = [];
-            if (author) _this.$axios.get('/userlike/' + author).then(res => {
+            if (author) _this.$axios.get(`/user?keyword=${author}`).then(res => {
                 for (let item of res.data) {
                     _this.authorOptions.push(item)
                 }
@@ -267,23 +260,18 @@ export default {
         // 处理表格内编辑操作
         handleEdit(row) {
             const _this = this;
-            _this.$axios.get('/getBlogDetail/' + row.id).then(res => {
-                const {id, title, tag_list, section, user_id, name, blog_content} = res.data[0];
+            _this.$axios.get(`/blog?id=${row.id}`).then(res => {
+                const {id, title, tag_list, section, author_id, author_name, content} = res.data;
+                _this.dialogBlogVisible = true;
                 _this.$nextTick(() => {
                     _this.blogDetails = {
                         order: 'edit',
                         dialogTitle: '编辑博客',
-                        id: id,
-                        title: title,
                         tag_list: tag_list.split(","),
-                        section: section,
-                        author: name,
-                        author_id: user_id,
-                        content: blog_content
+                        id, title, section, author_name, author_id, content
                     }
                 })
             })
-            _this.dialogBlogVisible = true;
         },
         // 处理表格内删除操作
         handleDelete(row) {
@@ -292,15 +280,9 @@ export default {
             _this.$confirm("确定要删除吗？", "提示", {
                 type: "warning",
             }).then(() => {
-                _this.$axios.post('/deleteBlog',
-                    Object.prototype.toString.call(row) === '[object Array]'
-                        ? {"blog_ids": row}
-                        : {"blog_ids": [row.id]})
-                    .then(res => {
-                        if (res.status === 200) {
-                            _this.$message.success("删除成功");
-                            _this.getBlogData(_this.pagination.pageCurrent);
-                        }
+                _this.$axios.delete(`/blog?ids=${row.id?row.id:row.toString()}`)
+                    .then(() => {
+                        _this.getBlogData(_this.pagination.pageCurrent);
                     })
             });
         },
@@ -314,41 +296,42 @@ export default {
             _this.dialogBlogVisible = true;
             _this.blogDetails.dialogTitle = '新增博客';
             _this.blogDetails.order = 'new';
-            _this.blogDetails.author = _this.user.name;
-            _this.blogDetails.author_id = _this.user.id;
+            _this.blogDetails.author_name = _this.user.name;
+            _this.blogDetails.author_id = _this.user.uid;
         },
         // 处理博客编辑保存
         handleSave() {
             const _this = this;
             // 对标签列表的数组进行字符串转换
-            const {title, tag_list, section, author_id, content} = _this.blogDetails;
+            const {title, tag_list, section, content, author_id} = _this.blogDetails;
             const blog = {
-                title: title,
                 tag_list: tag_list.toString(),
-                section: section,
-                author_id: author_id,
-                content: content
+                title, section, content, author_id
             }
             // 判断博客信息是否填写完整
             for (let item in blog)
                 if (blog[item] === '') {
-                    this.$message({
-                        type: 'error',
-                        message: '请检查信息是否填写完整'
-                    });
+                    this.$message.error('请检查信息是否填写完整');
                     return
                 }
             // 向后端发送请求
-            _this.$axios.post(_this.blogDetails.order === 'new'
-                ? '/createNewBlog'
-                : ('/updateBlog/' + _this.blogDetails.id), blog)
-                .then(res => {
-                    if (res.status === 200) {
-                        _this.$message.success('保存成功');
+            switch (_this.blogDetails.order) {
+                case "new":
+                    _this.$axios.post('/blog', blog).then(() => {
                         _this.dialogBlogVisible = false;
                         _this.getBlogData(_this.pagination.pageCurrent);
-                    }
-                })
+                    })
+                    break
+                case "edit":
+                    _this.$axios.put(`/blog?id=${_this.blogDetails.id}`, blog).then(() => {
+                        _this.dialogBlogVisible = false;
+                        _this.getBlogData(_this.pagination.pageCurrent);
+                    })
+                    break
+                default:
+                    _this.$message.error('无法获取该窗口命令，请关闭编辑窗口后重试')
+                    break
+            }
         },
         // 处理图片上传
         imgAdd (pos, file) {

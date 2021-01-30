@@ -122,7 +122,8 @@ export default {
         // 用户名下拉菜单选择事件
         handleCommand(command) {
             if (command === 'logout') {
-                localStorage.removeItem('user_id');
+                localStorage.removeItem('token');
+                sessionStorage.removeItem('verify')
                 this.initUserinfo()
                 this.$router.push('/login');
             }

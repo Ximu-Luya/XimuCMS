@@ -47,14 +47,16 @@ export default {
             const _this = this
             _this.$refs.login.validate((valid) => {
                 if (valid) {
-                    _this.$axios.post('/login', _this.param).then(res => {
-                        if(res.status === 200) {
-                            _this.setUserId(res.data.id)
-                            _this.$message.success('登录成功');
-                            localStorage.setItem('user_id', res.data.id);
-                            console.log(localStorage);
-                            _this.$router.push('/admin/index');
-                        }
+                    _this.$axios.post('/user/login', _this.param).then(res => {
+                        // 在vuex中存入用户id
+                        _this.setUserId(res.data.uid)
+                        // 在持久化储存中存入token
+                        localStorage.setItem('token', res.data.token);
+                        // 在sessionStorage中设置为yes可在单个标签内免除重复验证
+                        sessionStorage.setItem('verify', 'yes')
+                        console.log(localStorage);
+                        // 转到后台管理首页
+                        _this.$router.push('/admin/index');
                     })
                 } else {
                     _this.$message.error('请输入账号和密码');

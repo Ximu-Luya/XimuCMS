@@ -100,7 +100,7 @@ export default {
     methods: {
         getUserInfo(){
             const _this = this;
-            _this.$axios.get('/getUserDetail/' + _this.user.id).then(res => {
+            _this.$axios.get(`/user?uid=${_this.user.uid}`).then(res => {
                 _this.setUserInfo(res.data)
             })
         },
