@@ -44,16 +44,18 @@
             <el-table-column type="selection" width="50" align="center"></el-table-column>
             <el-table-column prop="username" min-width="80" label="用户账号"></el-table-column>
             <el-table-column prop="name" min-width="80" label="用户姓名"></el-table-column>
-            <el-table-column prop="team" min-width="100" label="所属团队"></el-table-column>
+            <el-table-column prop="team_name" min-width="100" label="所属团队">
+              <template slot-scope="scope">
+                  {{scope.row.team_name ? scope.row.team_name : '无'}}
+              </template>
+            </el-table-column>
             <el-table-column prop="email" min-width="80" label="邮箱"></el-table-column>
             <el-table-column prop="telephone" min-width="80" label="电话"></el-table-column>
             <el-table-column prop="role" min-width="60" label="角色"></el-table-column>
             <el-table-column width="80" label="用户状态" align="center">
                 <template slot-scope="scope">
-                    <el-tag :type="'success'" v-if="scope.row.status === '已激活'">{{ scope.row.status }}</el-tag>
-                    <el-tag :type="'warning'" v-if="scope.row.status === '未激活'">{{ scope.row.status}}</el-tag>
-                    <el-tag :type="'danger'" v-if="scope.row.status === '已禁用'">{{ scope.row.status }}</el-tag>
-                    <el-tag :type="'info'" v-if="scope.row.status === '已删除'">{{ scope.row.status }}</el-tag>
+                    <el-tag :type="'success'" v-if="scope.row.status === 'activated'">已激活</el-tag>
+                    <el-tag :type="'warning'" v-if="scope.row.status === 'inactivated'">未激活</el-tag>
                 </template>
             </el-table-column>
             <el-table-column label="操作" width="180" align="center">
@@ -71,7 +73,7 @@
                         icon="el-icon-circle-close"
                         class="yellow"
                         @click="handleEnable(scope.row)"
-                        v-if="scope.row.status === '已激活'"
+                        v-if="scope.row.status === 'activated'"
                     >禁用
                     </el-button
                     >
@@ -80,7 +82,7 @@
                         icon="el-icon-circle-check"
                         class="green"
                         @click="handleEnable(scope.row)"
-                        v-if="scope.row.status === '已禁用' || scope.row.status === '未激活'"
+                        v-if="scope.row.status === 'inactivated'"
                     >激活
                     </el-button
                     >
@@ -109,7 +111,7 @@
         </div>
 
         <el-dialog
-            :visible.sync="dialogUserVisible"
+            :visible.sync="dialogVisible"
             custom-class="user-dialog"
             destroy-on-close
             :close-on-click-modal="false"
@@ -135,7 +137,7 @@
                 <el-form-item label="所属团队" prop="team_id">
                     <el-select
                         v-model="userDetails.team_id"
-                        placeholder="请选择团队"
+                        placeholder="请输入团队名称关键词"
                         clearable
                         filterable
                         :remote-method="filterTeam"
@@ -143,8 +145,8 @@
                     >
                         <el-option
                             v-for="item in userDetails.teamOption"
-                            :key="item['id']"
-                            :value="item['id']"
+                            :key="item['team_id']"
+                            :value="item['team_id']"
                             :label="item['team_name']"
                         ></el-option>
                     </el-select>
@@ -167,7 +169,7 @@
             </el-form>
 
             <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogUserVisible = false">取 消</el-button>
+        <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="handleSave">确 定</el-button>
       </span>
         </el-dialog>
@@ -194,49 +196,36 @@ export default {
                 pageTotal: 0,
             },
             // 用户详情对话框
-            dialogUserVisible: false,
+            dialogVisible: false,
             // 用户编辑详情
             userDetails: {
-                order: '',
-                dialogTitle: '',
-                id: '',
-                username: '',
+                order: null,
+                dialogTitle: null,
+                uid: null,
+                username: null,
                 password: '123456（默认）',
-                name: '',
-                team_id: '',
+                name: null,
+                team_id: null,
                 teamOption: [],
-                email: '',
-                telephone: '',
-                job: '',
-                role: '',
-                status: ''
+                email: null,
+                telephone: null,
+                job: null,
+                role: null,
+                status: null
             }
         };
     },
     mounted() {
-        this.getUserData(1);
+        this.getData(1);
     },
     methods: {
         // 获取数据
-        getUserData(page) {
+        getData(page) {
             const _this = this;
             _this.tableData = [];
-            _this.$axios.get('/user/' + page, _this.tableData[0]).then((res) => {
-                // console.log(res);
-                _this.pagination.pageTotal = res.data.pageTotal;
-                for (let item of res.data.userData) {
-                    const {id, username, name, team_name, email, telephone, role, status} = item;
-                    _this.tableData.push({
-                        id: id,
-                        username: username,
-                        name: name,
-                        team: team_name,
-                        email: email,
-                        telephone: telephone,
-                        role: role,
-                        status: status
-                    });
-                }
+            _this.$axios.get(`/user?page=${page}`).then(({data}) => {
+                _this.pagination.pageTotal = data.pageTotal;
+                _this.tableData = data.userData
             });
         },
         // Todo 筛选搜索
@@ -249,13 +238,13 @@ export default {
         handleNew() {
             const _this = this;
             _this.userDetails.dialogTitle = '新增用户';
-            _this.dialogUserVisible = true;
+            _this.dialogVisible = true;
             _this.userDetails.order = 'new';
         },
         // 批量删除
         delAllSelection() {
             let users = [];
-            for (let item of this.multipleSelection) users.push(item.id)
+            for (let item of this.multipleSelection) users.push(item.uid)
             this.handleDelete(users);
         },
         // 多选操作
@@ -265,40 +254,31 @@ export default {
         // 处理表格内编辑操作
         handleEdit(row) {
             const _this = this;
-            _this.$axios.get('/getUserDetail/' + row.id).then(res => {
-                const {id, username, name, team_id, team_name, email, telephone, job,  role} = res.data;
+            _this.$axios.get(`/user?uid=${row.uid}`).then(res => {
+                const {uid, username, name, team_id, team_name, email, telephone, job,  role} = res.data;
                 this.userDetails = {
                     order: 'edit',
                     dialogTitle: '编辑用户',
-                    id: id,
-                    username: username,
                     password: '******',
-                    name: name,
-                    team_id: team_id,
-                    teamOption: [{"id": team_id, "team_name": team_name}],
-                    email: email,
-                    telephone: telephone,
-                    job: job,
-                    role: role
+                    teamOption: [{"team_id": team_id, "team_name": team_name}],
+                    uid, username, name, team_id, email, telephone, job, role
                 }
             });
-            _this.dialogUserVisible = true;
+            _this.dialogVisible = true;
         },
         // 处理用户编辑对话框内团队选择框远程搜索
         filterTeam(teamname) {
             const _this = this;
             _this.userDetails.teamOption = [];
-            if (teamname) _this.$axios.get('/teamlike/' + teamname).then(res => {
+            if (teamname) _this.$axios.get(`/team?keyword=${teamname}`).then(res => {
                 for (let item of res.data) _this.userDetails.teamOption.push(item)
             })
         },
         // 处理表格内激活操作
         handleEnable(row) {
-            console.log(row);
             const _this = this;
-            _this.$axios.post('/activateUser/' + row.id).then(res =>{
-                _this.$message.success('用户状态已切换为' + res.data.user_status);
-                _this.getUserData(_this.pagination.pageCurrent);
+            _this.$axios.put(`/user?uid=${row.uid}&status=${row.status}`).then(() =>{
+                _this.getData(_this.pagination.pageCurrent);
             })
         },
         // 处理表格删除
@@ -308,38 +288,53 @@ export default {
             _this.$confirm("确定要删除吗？", "提示", {
                 type: "warning",
             }).then(() => {
-                _this.$axios.post('/deleteUser',
-                    Object.prototype.toString.call(row) === '[object Array]'
-                        ? {"user_ids": row}
-                        : {"user_ids": [row.id]})
-                    .then(res => {
-                        if (res.status === 200) {
-                            _this.$message.success("删除成功");
-                            _this.getUserData(_this.pagination.pageCurrent);
-                        }
+                _this.$axios.delete(`/user?uids=${row.uid?row.uid:row.toString()}`)
+                    .then(() => {
+                        _this.getData(_this.pagination.pageCurrent);
                     })
             });
         },
         // 分页导航-处理页码变更
         handlePageChange(val) {
-            this.getUserData(val);
+            this.getData(val);
         },
         // 处理用户编辑对话框保存
         handleSave() {
             const _this = this;
-            _this.$axios.post(_this.userDetails.order === 'new'
-                ? '/createNewUser'
-                : ('/updateUser/' + _this.userDetails.id), _this.$refs['userDetails'].model)
-                .then(res => {
-                    if (res.status === 200) {
-                        _this.$message({
-                            type: 'success',
-                            message: '保存成功'
-                        });
-                        _this.dialogUserVisible = false;
-                        _this.getUserData(_this.pagination.pageCurrent);
-                    }
-                })
+            // _this.$axios.post(_this.userDetails.order === 'new'
+            //     ? '/createNewUser'
+            //     : ('/updateUser/' + _this.userDetails.uid), _this.$refs['userDetails'].model)
+            //     .then(res => {
+            //         if (res.status === 200) {
+            //             _this.$message({
+            //                 type: 'success',
+            //                 message: '保存成功'
+            //             });
+            //             _this.dialogVisible = false;
+            //             _this.getData(_this.pagination.pageCurrent);
+            //         }
+            //     })
+            const {username, name, email, telephone, team_id, job, role} = _this.$refs['userDetails'].model
+            const userinfo = {username, name, email, telephone, team_id, job, role}
+            
+            // 向后端发送请求
+            switch (_this.userDetails.order) {
+                case "new":
+                    _this.$axios.post('/user', userinfo).then(() => {
+                        _this.dialogVisible = false;
+                        _this.getData(_this.pagination.pageCurrent);
+                    })
+                    break
+                case "edit":
+                    _this.$axios.put(`/user?uid=${_this.userDetails.uid}`, userinfo).then(() => {
+                        _this.dialogVisible = false;
+                        _this.getData(_this.pagination.pageCurrent);
+                    })
+                    break
+                default:
+                    _this.$message.error('无法获取该窗口命令，请关闭编辑窗口后重试')
+                    break
+            }
         }
     },
 };

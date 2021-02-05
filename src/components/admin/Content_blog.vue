@@ -210,11 +210,11 @@ export default {
         'mavon-editor': mavonEditor.mavonEditor
     },
     mounted() {
-        this.getBlogData(1);
+        this.getData(1);
     },
     methods: {
         // 获取表格内容
-        getBlogData(page) {
+        getData(page) {
             const _this = this;
             // 首先清空原表格
             _this.tableData = [];
@@ -245,7 +245,7 @@ export default {
                 type: "",
                 name: "",
             }
-            this.getBlogData(this.pagination.pageCurrent)
+            this.getData(this.pagination.pageCurrent)
         },
         // 批量删除
         delAllSelection() {
@@ -282,13 +282,13 @@ export default {
             }).then(() => {
                 _this.$axios.delete(`/blog?ids=${row.id?row.id:row.toString()}`)
                     .then(() => {
-                        _this.getBlogData(_this.pagination.pageCurrent);
+                        _this.getData(_this.pagination.pageCurrent);
                     })
             });
         },
         // 分页导航-处理页码变更
         handlePageChange(val) {
-            this.getBlogData(val);
+            this.getData(val);
         },
         // 处理新增博客
         handleNew() {
@@ -319,13 +319,13 @@ export default {
                 case "new":
                     _this.$axios.post('/blog', blog).then(() => {
                         _this.dialogBlogVisible = false;
-                        _this.getBlogData(_this.pagination.pageCurrent);
+                        _this.getData(_this.pagination.pageCurrent);
                     })
                     break
                 case "edit":
                     _this.$axios.put(`/blog?id=${_this.blogDetails.id}`, blog).then(() => {
                         _this.dialogBlogVisible = false;
-                        _this.getBlogData(_this.pagination.pageCurrent);
+                        _this.getData(_this.pagination.pageCurrent);
                     })
                     break
                 default:

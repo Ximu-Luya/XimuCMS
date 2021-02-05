@@ -36,8 +36,14 @@ app.use('/',express.static("dist"));
 // eslint-disable-next-line no-unused-vars
 app.use(function (err, req, res, next){
     if (err["status"] === 401) {
-        if (err["message"] === 'invalid signature') return res.status(401).send('token无效');
-        else if (err["message"] === 'jwt expired') return res.status(401).send('登录已过期，请重新登录');
+        if (err["message"] === 'invalid signature') {
+            console.log('客户端token失效')
+            return res.status(401).send('token无效');
+        }
+        else if (err["message"] === 'jwt expired') {
+            console.log('客户端登录已过期')
+            return res.status(401).send('登录已过期，请重新登录');
+        }
     }
 });
 

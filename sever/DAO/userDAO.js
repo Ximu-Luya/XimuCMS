@@ -14,10 +14,10 @@ exports = module.exports.selectTotal = function (){
 
 // 按页查询
 exports = module.exports.selectByPage = function (page) {
-    const sql = "select user.uid, username, name, team.team_name, email, telephone, role, status " +
-        "from user " +
-        "left join team on user.team_id = team.id " +
-        "limit ?, 10"
+    const sql = `select user.uid, username, user.name as name, team.name as team_name,
+     email, telephone, role, status from user
+     left join team on user.team_id = team.id
+     limit ?, 10`
     return query(sql, ((page - 1) * 10))
 }
 
@@ -40,9 +40,8 @@ exports = module.exports.selectByName = function (name) {
 
 // 新增数据
 exports = module.exports.insert = function (userinfo) {
-    const sql = "insert into user(uid, username, password, name, team_id, email, telephone, job, status, role) " +
-        "value(?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
-        ""
+    const sql = "insert into user(username, password, name, team_id, email, telephone, job, status, role) " +
+        "value(?, ?, ?, ?, ?, ?, ?, ?, ?) "
     return query(sql, userinfo)
 }
 
@@ -55,8 +54,8 @@ exports = module.exports.update = function (userinfo) {
 
 // 更新用户状态
 exports = module.exports.updateStatus = function (uid, status) {
-    const sql = "update user set status=? where uid=?"
-    return query(sql, [status, uid])
+    const sql = `update user set status='${status}' where uid='${uid}'`
+    return query(sql)
 }
 
 // 删除数据

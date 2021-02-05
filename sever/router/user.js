@@ -57,8 +57,8 @@ router.post('/', jsonParser, (req, res) => {
     const {username, name, team_id, email, telephone, job, role} = req.body
 
     // 引入uuid模块生成用户id
-    const { v4: uuid } = require('uuid')
-    const uid = uuid().replace(/-/,'-').slice(0, 8)
+    // const { v4: uuid } = require('uuid')
+    // const uid = uuid().replace(/-/,'-').slice(0, 8)
 
     // 检查是否为管理员用户
     if(response.adminForbiddenCheck(req, res)) return
@@ -77,7 +77,7 @@ router.post('/', jsonParser, (req, res) => {
     // }
 
     // 封装用户信息
-    const userinfo = [uid, username, '123456', name, team_id, email, telephone, job, '未激活', role]
+    const userinfo = [username, '123456', name, team_id, email, telephone, job, 'inactivated', role]
     console.log('正在新增姓名为', name, '的用户')
     // 调用DAO层
     userDAO.insert(userinfo).then(result => {
@@ -91,8 +91,8 @@ router.post('/', jsonParser, (req, res) => {
 
 // 更新指定id用户信息
 router.put('/', jsonParser, (req, res) => {
-    const {uid} = req.query
-    const {username, name, email, telephone, team_id, job, role, status} = req.body
+    const {uid, status} = req.query
+    const {username, name, email, telephone, team_id, job, role} = req.body
     const userinfo = [username, name, email, telephone, team_id, job, role, uid]
 
     // 检查是否为管理员用户
@@ -101,7 +101,7 @@ router.put('/', jsonParser, (req, res) => {
     // 如果status不为undefined即该请求为更改用户状态
     if (status) {
         console.log('正在对UID为', uid, '的用户状态进行变更')
-        userDAO.updateStatus(uid, status==='activated'?'已激活':'未激活').then(result => {
+        userDAO.updateStatus(uid, status==='activated'?'inactivated':'activated').then(result => {
             if (result) return response.success1(res, '已完成状态变更')
             else return  response.success4(res, '找不到该用户')
         })
