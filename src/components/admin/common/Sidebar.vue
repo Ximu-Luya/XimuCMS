@@ -88,12 +88,6 @@ export default {
                     ]
                 },
                 {
-                    icon: 'el-icon-s-flag',
-                    index: 'team',
-                    title: '团队操作',
-                    roleif: 'admin'
-                },
-                {
                     icon: 'el-icon-user',
                     index: 'users',
                     title: '用户管理',
